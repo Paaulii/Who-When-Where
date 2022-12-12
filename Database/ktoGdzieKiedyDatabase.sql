@@ -3,7 +3,8 @@
 -- Host: localhost    Database: ktogdziekiedy
 -- ------------------------------------------------------
 -- Server version	8.0.28
-
+create database ktogdziekiedy;
+use ktogdziekiedy;
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -18,6 +19,39 @@
 --
 -- Table structure for table `blocking`
 --
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user` (
+  `id_u` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `surname` varchar(255) DEFAULT NULL,
+  `login` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `token` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_u`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+DROP TABLE IF EXISTS `task`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `task` (
+  `id_t` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `category` varchar(255) DEFAULT NULL,
+  `status` enum('To do','In progress','Done') DEFAULT 'To do',
+  `estimatedTime` float(3,2) DEFAULT NULL,
+  `realTime` float(3,2) DEFAULT NULL,
+  `id_u` int DEFAULT NULL,
+  PRIMARY KEY (`id_t`),
+  KEY `id_u` (`id_u`),
+  CONSTRAINT `task_ibfk_1` FOREIGN KEY (`id_u`) REFERENCES `user` (`id_u`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 DROP TABLE IF EXISTS `blocking`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -45,24 +79,6 @@ UNLOCK TABLES;
 -- Table structure for table `task`
 --
 
-DROP TABLE IF EXISTS `task`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `task` (
-  `id_t` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `category` varchar(255) DEFAULT NULL,
-  `status` enum('To do','In progress','Done') DEFAULT 'To do',
-  `estimatedTime` float(3,2) DEFAULT NULL,
-  `realTime` float(3,2) DEFAULT NULL,
-  `id_u` int DEFAULT NULL,
-  PRIMARY KEY (`id_t`),
-  KEY `id_u` (`id_u`),
-  CONSTRAINT `task_ibfk_1` FOREIGN KEY (`id_u`) REFERENCES `user` (`id_u`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
 --
 -- Dumping data for table `task`
 --
@@ -73,23 +89,6 @@ INSERT INTO `task` VALUES (1,'Trudne zadanie','Bardzo trudne zadanie','Kategoria
 /*!40000 ALTER TABLE `task` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `user`
---
-
-DROP TABLE IF EXISTS `user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user` (
-  `id_u` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `surname` varchar(255) DEFAULT NULL,
-  `login` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `token` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id_u`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `user`
