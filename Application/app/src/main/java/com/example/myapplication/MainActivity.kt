@@ -11,20 +11,8 @@ import androidx.fragment.app.FragmentTransaction
 
 
 class MainActivity : AppCompatActivity() {
-    val CreateTask  = CreateTask();
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_main)
-
-        SwitchFragment(CreateTask)
-    }
-
-    fun SwitchFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().apply{
-            replace(R.id.fragmentContainer, fragment)
-            addToBackStack(null)
-            commit()
-        }
     }
 }
