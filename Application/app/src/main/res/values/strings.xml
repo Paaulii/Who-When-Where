@@ -17,4 +17,10 @@
     <string name="GroupByUser">Group By User</string>
     <string name="GroupByCategory">Group By Category</string>
     <string name="Logout">Logout</string>
+    <string name="task_creation_title">Title</string>
+    <string name="task_creation_description">Description</string>
+    <string name="task_creation_real_time">Real time</string>
+    <string name="task_creation_estimated_time">Estimated time</string>
+    <string name="save_task">Save task</string>
+    <string name="back">Back</string>
 </resources>

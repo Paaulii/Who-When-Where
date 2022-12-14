@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/login">
+
+    <fragment
+        android:id="@+id/login"
+        android:name="com.example.myapplication.Login"
+        android:label="Login">
+        <action
+            android:id="@+id/action_login_to_board"
+            app:destination="@id/board" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/board"
+        android:name="com.example.myapplication.Board"
+        android:label="Board">
+        <action
+            android:id="@+id/action_board_to_login"
+            app:destination="@id/login" />
+        <action
+            android:id="@+id/action_board_to_table"
+            app:destination="@id/table" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createTask"
+        android:name="com.example.myapplication.CreateTask"
+        android:label="CreateTask">
+        <action
+            android:id="@+id/action_createTask_to_board"
+            app:destination="@id/board" />
+    </fragment>
+    <fragment
+        android:id="@+id/table"
+        android:name="com.example.myapplication.Table"
+        android:label="fragment_table"
+        tools:layout="@layout/fragment_table" >
+        <action
+            android:id="@+id/action_table_to_createTask2"
+            app:destination="@id/createTask" />
+    </fragment>
+</navigation>
