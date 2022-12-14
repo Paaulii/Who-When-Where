@@ -23,4 +23,5 @@
     <string name="task_creation_estimated_time">Estimated time</string>
     <string name="save_task">Save task</string>
     <string name="back">Back</string>
+    <string name="report">Report</string>
 </resources>

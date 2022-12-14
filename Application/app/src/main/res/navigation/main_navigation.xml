@@ -22,8 +22,8 @@
             android:id="@+id/action_board_to_login"
             app:destination="@id/login" />
         <action
-            android:id="@+id/action_board_to_table"
-            app:destination="@id/table" />
+            android:id="@+id/action_board_to_createTask"
+            app:destination="@id/createTask" />
     </fragment>
 
     <fragment
@@ -33,14 +33,5 @@
         <action
             android:id="@+id/action_createTask_to_board"
             app:destination="@id/board" />
-    </fragment>
-    <fragment
-        android:id="@+id/table"
-        android:name="com.example.myapplication.Table"
-        android:label="fragment_table"
-        tools:layout="@layout/fragment_table" >
-        <action
-            android:id="@+id/action_table_to_createTask2"
-            app:destination="@id/createTask" />
     </fragment>
 </navigation>
