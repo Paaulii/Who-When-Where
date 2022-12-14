@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Who, Where, When?</string>
     <string name="login">LOG IN</string>
     <string name="username">Username</string>
     <string name="passwordHint">Password</string>
@@ -7,9 +7,14 @@
     <string name="toDo">TO DO</string>
     <string name="inProgress">IN PROGRESS</string>
     <string name="done">DONE</string>
+    <string name="User">User</string>
+    <string name="Report">Report</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tableHeaderText">TO DO</string>
     <string name="add_button">AddButton</string>
     <string name="floatingButton">AddButton</string>
+    <string name="GroupByUser">Group By User</string>
+    <string name="GroupByCategory">Group By Category</string>
+    <string name="Logout">Logout</string>
 </resources>
