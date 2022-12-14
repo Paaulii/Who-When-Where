@@ -11,17 +11,18 @@ import androidx.fragment.app.FragmentTransaction
 
 
 class MainActivity : AppCompatActivity() {
-    private var toDoFragment = Table()
-    private var inProgressFragment = Table()
-    private var doneFragment = Table()
-
+    val CreateTask  = CreateTask();
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.board)
+
+        setContentView(R.layout.activity_main)
+
+        SwitchFragment(CreateTask)
+    }
+
+    fun SwitchFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().apply{
-            replace(R.id.toDoTableFragment, toDoFragment)
-            replace(R.id.inProgressTableFragment,inProgressFragment)
-            replace(R.id.doneTableFragment, doneFragment)
+            replace(R.id.fragmentContainer, fragment)
             addToBackStack(null)
             commit()
         }

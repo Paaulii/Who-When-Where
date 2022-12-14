@@ -7,9 +7,13 @@
     <string name="toDo">TO DO</string>
     <string name="inProgress">IN PROGRESS</string>
     <string name="done">DONE</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tableHeaderText">TO DO</string>
     <string name="add_button">AddButton</string>
     <string name="floatingButton">AddButton</string>
+    <string name="task_creation_title">Title</string>
+    <string name="task_creation_description">Description</string>
+    <string name="task_creation_real_time">Real time</string>
+    <string name="task_creation_estimated_time">Estimated time</string>
+    <string name="save_task">Save task</string>
+    <string name="back">Back</string>
 </resources>
