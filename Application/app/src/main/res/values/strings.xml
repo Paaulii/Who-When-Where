@@ -9,8 +9,7 @@
     <string name="done">DONE</string>
     <string name="User">User</string>
     <string name="Report">Report</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="tableHeaderText">TO DO</string>
     <string name="add_button">AddButton</string>
     <string name="floatingButton">AddButton</string>
@@ -24,4 +23,9 @@
     <string name="save_task">Save task</string>
     <string name="back">Back</string>
     <string name="report">Report</string>
+    <string name="taskCompleted">Number of completed tasks:</string>
+    <string name="inProgressTasks">In progress tasks: </string>
+    <string name="toDoTasks">To do tasks:</string>
+    <string name="totalEstimatedTime">Total estimated time: </string>
+    <string name="totalRealTime">Total real time: </string>
 </resources>
