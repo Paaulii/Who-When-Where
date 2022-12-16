@@ -1,15 +1,19 @@
 package com.example.myapplication
 
+import ViewModels.LoginViewModel
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 
 class Login : Fragment() {
+    val loginViewModel = LoginViewModel(this)
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         val view: View = inflater.inflate(R.layout.login, container, false)
@@ -21,23 +25,15 @@ class Login : Fragment() {
         val loginButton = view.findViewById<Button>(R.id.loginButton)
 
         loginButton.setOnClickListener{
-            TryToLogin();
+            val username = view?.findViewById<EditText>(R.id.username)
+            val password = view?.findViewById<EditText>(R.id.password)
+
+            loginViewModel.TryToLogin(username?.text.toString(), password?.text.toString())
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    fun TryToLogin()
+    fun DisplayLoginError()
     {
-        if (false)
-        {
-            Navigation.findNavController(requireView()).navigate(R.id.action_login_to_board)
-        }
-        else
-        {
-            Toast.makeText(context, "Invalid username or passowrd", Toast.LENGTH_LONG).show()
-        }
+        Toast.makeText(context, "Invalid username or passowrd", Toast.LENGTH_LONG).show()
     }
 }

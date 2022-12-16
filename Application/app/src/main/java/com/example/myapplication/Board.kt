@@ -16,7 +16,6 @@ class Board : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        Toast.makeText(context, "View Created", Toast.LENGTH_SHORT).show()
         val view: View = inflater.inflate(R.layout.board, container, false)
         return view
     }
