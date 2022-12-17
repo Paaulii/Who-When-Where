@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-   <item android:id="@+id/User"
+   <item android:id="@+id/menu_User"
         android:title="@string/User"/>
+    <item android:id="@+id/menu_Board"
+        android:title="@string/Board"/>
     <group>
-        <item android:id="@+id/GroupByUser"
+        <item android:id="@+id/menu_GroupByUser"
             android:title="@string/GroupByUser"/>
-        <item android:id="@+id/GroupByCategory"
+        <item android:id="@+id/menu_GroupByCategory"
             android:title="@string/GroupByCategory"/>
     </group>
-    <item android:id="@+id/Report"
+    <item android:id="@+id/menu_Report"
         android:title="@string/Report"/>
-    <item android:id="@+id/Logout"
+    <item android:id="@+id/menu_Logout"
         android:title="@string/Logout"/>
 </menu>

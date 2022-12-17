@@ -1,9 +1,7 @@
 package com.example.myapplication
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 
@@ -22,8 +20,12 @@ class Board : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.Logout -> {
+            R.id.menu_Logout -> {
                 Navigation.findNavController(requireView()).navigate(R.id.action_board_to_login)
+                true
+            }
+            R.id.menu_Report -> {
+                Navigation.findNavController(requireView()).navigate(R.id.action_board_to_report)
                 true
             }
         else -> super.onOptionsItemSelected(item)

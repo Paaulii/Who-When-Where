@@ -28,4 +28,5 @@
     <string name="toDoTasks">To do tasks:</string>
     <string name="totalEstimatedTime">Total estimated time: </string>
     <string name="totalRealTime">Total real time: </string>
+    <string name="Board">Board</string>
 </resources>

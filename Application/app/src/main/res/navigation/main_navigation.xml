@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_board_to_createTask"
             app:destination="@id/createTask" />
+        <action
+            android:id="@+id/action_board_to_report"
+            app:destination="@id/report" />
     </fragment>
 
     <fragment
@@ -33,5 +36,16 @@
         <action
             android:id="@+id/action_createTask_to_board"
             app:destination="@id/board" />
+    </fragment>
+    <fragment
+        android:id="@+id/report"
+        android:name="com.example.myapplication.Report"
+        android:label="Report" >
+        <action
+            android:id="@+id/action_report_to_board"
+            app:destination="@id/board" />
+        <action
+            android:id="@+id/action_report_to_login"
+            app:destination="@id/login" />
     </fragment>
 </navigation>
