@@ -5,15 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 
 class CreateTaskFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         val view: View = inflater.inflate(R.layout.create_task, container, false)
         val spinner: Spinner = view.findViewById(R.id.users_spinner)
-
 
         getActivity()?.let {
             ArrayAdapter.createFromResource(
@@ -27,6 +28,11 @@ class CreateTaskFragment : Fragment() {
                 spinner.adapter = adapter
             }
         }
+
+        view.findViewById<Button>(R.id.btnBack).setOnClickListener {
+            Navigation.findNavController(requireView()).navigate(R.id.action_createTask_to_board)
+        }
+
         return view
     }
 

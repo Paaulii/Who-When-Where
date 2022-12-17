@@ -24,8 +24,8 @@ class LoginFragment : Fragment() {
         val loginButton = view.findViewById<Button>(R.id.loginButton)
 
         loginButton.setOnClickListener{
-            val username = view?.findViewById<EditText>(R.id.username)
-            val password = view?.findViewById<EditText>(R.id.password)
+            val username = view.findViewById<EditText>(R.id.username)
+            val password = view.findViewById<EditText>(R.id.password)
 
             loginViewModel.TryToLogin(username?.text.toString(), password?.text.toString())
         }

@@ -1,9 +1,13 @@
 package com.example.myapplication
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.findFragment
 import androidx.navigation.Navigation
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class BoardFragment : Fragment() {
 
@@ -14,8 +18,18 @@ class BoardFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        val view: View = inflater.inflate(R.layout.board, container, false)
-        return view
+        return inflater.inflate(R.layout.board, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        childFragmentManager
+            .beginTransaction()
+            .add(R.id.toDoTableFragment, TableFragment.NewInstance("TO DO"))
+            .add(R.id.inProgressTableFragment, TableFragment.NewInstance("IN PROGRESS"))
+            .add(R.id.doneTableFragment, TableFragment.NewInstance("DONE"))
+            .commit()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

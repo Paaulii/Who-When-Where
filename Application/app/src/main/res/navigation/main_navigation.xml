@@ -22,11 +22,11 @@
             android:id="@+id/action_board_to_login"
             app:destination="@id/login" />
         <action
-            android:id="@+id/action_board_to_createTask"
-            app:destination="@id/createTask" />
-        <action
             android:id="@+id/action_board_to_report"
             app:destination="@id/report" />
+        <action
+            android:id="@+id/action_board_to_createTask"
+            app:destination="@id/createTask" />
     </fragment>
 
     <fragment

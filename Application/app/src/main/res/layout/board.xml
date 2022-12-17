@@ -17,29 +17,20 @@
             android:fillViewport="true"
             android:orientation="horizontal">
 
-
-            <androidx.fragment.app.FragmentContainerView
+            <FrameLayout
                 android:id="@+id/toDoTableFragment"
-                android:name="com.example.myapplication.TableFragment"
                 android:layout_width="410sp"
-                android:layout_height="match_parent"
-                tools:layout="@layout/fragment_table" />
+                android:layout_height="match_parent"/>
 
-
-            <androidx.fragment.app.FragmentContainerView
+            <FrameLayout
                 android:id="@+id/inProgressTableFragment"
-                android:name="com.example.myapplication.TableFragment"
                 android:layout_width="410sp"
-                android:layout_height="match_parent"
-                tools:layout="@layout/fragment_table" />
+                android:layout_height="match_parent"/>
 
-
-            <androidx.fragment.app.FragmentContainerView
+            <FrameLayout
                 android:id="@+id/doneTableFragment"
-                android:name="com.example.myapplication.TableFragment"
                 android:layout_width="410sp"
-                android:layout_height="match_parent"
-                tools:layout="@layout/fragment_table" />
+                android:layout_height="match_parent"/>
 
         </LinearLayout>
     </HorizontalScrollView>
