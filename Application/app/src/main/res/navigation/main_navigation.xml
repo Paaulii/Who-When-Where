@@ -31,7 +31,7 @@
 
     <fragment
         android:id="@+id/createTask"
-        android:name="com.example.myapplication.CreateTaskView"
+        android:name="com.example.myapplication.CreateTaskFragment"
         android:label="CreateTask">
         <action
             android:id="@+id/action_createTask_to_board"
