@@ -14,9 +14,4 @@ class MainActivity : AppCompatActivity() {
         toolbar = findViewById<Toolbar>(R.id.main_toolbar)
         setSupportActionBar(toolbar)
     }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.popup_menu, menu)
-        return true
-    }
 }

@@ -32,6 +32,11 @@ class BoardFragment : Fragment() {
             .commit()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.popup_menu, menu)
+        true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_Logout -> {

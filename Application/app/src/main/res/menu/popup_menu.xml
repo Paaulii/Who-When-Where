@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-   <item android:id="@+id/menu_User"
-        android:title="@string/User"/>
-    <item android:id="@+id/menu_Board"
-        android:title="@string/Board"/>
     <group>
         <item android:id="@+id/menu_GroupByUser"
             android:title="@string/GroupByUser"/>

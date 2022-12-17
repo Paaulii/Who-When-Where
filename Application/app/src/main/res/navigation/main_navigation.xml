@@ -44,8 +44,5 @@
         <action
             android:id="@+id/action_report_to_board"
             app:destination="@id/board" />
-        <action
-            android:id="@+id/action_report_to_login"
-            app:destination="@id/login" />
     </fragment>
 </navigation>
