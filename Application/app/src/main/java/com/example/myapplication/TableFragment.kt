@@ -26,10 +26,6 @@ class TableFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<TextView>(R.id.headerText).text = header
-
-        view.findViewById<FloatingActionButton>(R.id.addTask).setOnClickListener {
-            Navigation.findNavController(requireView()).navigate(R.id.action_board_to_createTask)
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

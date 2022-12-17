@@ -30,11 +30,14 @@ class BoardFragment : Fragment() {
             .add(R.id.inProgressTableFragment, TableFragment.NewInstance("IN PROGRESS"))
             .add(R.id.doneTableFragment, TableFragment.NewInstance("DONE"))
             .commit()
+
+        view.findViewById<FloatingActionButton>(R.id.addTask).setOnClickListener {
+            Navigation.findNavController(requireView()).navigate(R.id.action_board_to_createTask)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.popup_menu, menu)
-        true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
