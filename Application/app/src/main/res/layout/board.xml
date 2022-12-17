@@ -20,7 +20,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/toDoTableFragment"
-                android:name="com.example.myapplication.Table"
+                android:name="com.example.myapplication.TableFragment"
                 android:layout_width="410sp"
                 android:layout_height="match_parent"
                 tools:layout="@layout/fragment_table" />
@@ -28,7 +28,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/inProgressTableFragment"
-                android:name="com.example.myapplication.Table"
+                android:name="com.example.myapplication.TableFragment"
                 android:layout_width="410sp"
                 android:layout_height="match_parent"
                 tools:layout="@layout/fragment_table" />
@@ -36,7 +36,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/doneTableFragment"
-                android:name="com.example.myapplication.Table"
+                android:name="com.example.myapplication.TableFragment"
                 android:layout_width="410sp"
                 android:layout_height="match_parent"
                 tools:layout="@layout/fragment_table" />

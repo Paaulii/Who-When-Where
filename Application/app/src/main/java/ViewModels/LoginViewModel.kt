@@ -1,15 +1,14 @@
 package ViewModels
 
 import Models.LoginRepository
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigation
-import com.example.myapplication.Login
+import com.example.myapplication.LoginFragment
 import com.example.myapplication.R
 import kotlinx.coroutines.launch
 
-class LoginViewModel(val loginView: Login) : ViewModel()
+class LoginViewModel(val loginView: LoginFragment) : ViewModel()
 {
     private val loginRepository = LoginRepository()
 
