@@ -8,7 +8,7 @@ import java.net.URL
 
 class LoginRepository
 {
-    val loginURLstring = "http://130.162.38.93:20420/foo"
+    val loginURLstring = "https://io.kamil.top:20420/foo"
 
     suspend fun MakeLoginRequest(jsonBody: String) : Boolean
     {
