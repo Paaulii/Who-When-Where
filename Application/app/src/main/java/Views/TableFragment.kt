@@ -1,20 +1,25 @@
-package com.example.myapplication
+package Views
 
-import android.content.Context
+import Utils.EventZeroParam
+import ViewModels.BoardViewModel
+import ViewModels.TableViewModel
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
-import androidx.navigation.Navigation
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.R
 
 private const val ARG_HEADER = "Header"
+private const val ARG_GET_LIST_FUNCTION = "GetListFunction"
 
 class TableFragment : Fragment() {
-
+    var onGetAllReferences  = EventZeroParam()
+    lateinit var recyclerView: RecyclerView
+    private var tableViewModel = TableViewModel(this);
+    var getTaskList: (() -> Unit)? = null
     private var header: String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -26,6 +31,9 @@ class TableFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<TextView>(R.id.headerText).text = header
+        recyclerView = view.findViewById(R.id.recyclerView)
+        getTaskList?.invoke()
+        onGetAllReferences.invoke()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,11 +46,14 @@ class TableFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun NewInstance(header: String) =
+       fun NewInstance(header: String, listGetterMethod : () -> Unit) =
+       // fun NewInstance(header: String) =
             TableFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_HEADER, header)
                 }
+
+                getTaskList = listGetterMethod
             }
     }
 }

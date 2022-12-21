@@ -1,9 +1,9 @@
-package com.example.myapplication
+package Views
 
 import android.os.Bundle
-import android.view.Menu
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myapplication.R
 
 class MainActivity : AppCompatActivity() {
     private var toolbar: Toolbar? = null

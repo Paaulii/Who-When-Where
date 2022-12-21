@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/login"
-        android:name="com.example.myapplication.LoginFragment"
+        android:name="Views.LoginFragment"
         android:label="Login">
         <action
             android:id="@+id/action_login_to_board"
@@ -16,7 +16,7 @@
 
     <fragment
         android:id="@+id/board"
-        android:name="com.example.myapplication.BoardFragment"
+        android:name="Views.BoardFragment"
         android:label="Board">
         <action
             android:id="@+id/action_board_to_login"
@@ -31,7 +31,7 @@
 
     <fragment
         android:id="@+id/createTask"
-        android:name="com.example.myapplication.CreateTaskFragment"
+        android:name="Views.CreateTaskFragment"
         android:label="CreateTask">
         <action
             android:id="@+id/action_createTask_to_board"
@@ -39,7 +39,7 @@
     </fragment>
     <fragment
         android:id="@+id/report"
-        android:name="com.example.myapplication.ReportFragment"
+        android:name="Views.ReportFragment"
         android:label="Report" >
         <action
             android:id="@+id/action_report_to_board"

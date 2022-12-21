@@ -1,5 +1,6 @@
-package com.example.myapplication
+package Views
 
+import Utils.EventTwoParam
 import ViewModels.LoginViewModel
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,9 +10,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.myapplication.R
 
 class LoginFragment : Fragment() {
-    val loginViewModel = LoginViewModel(this)
+    val onLoginButtonClicked  = EventTwoParam<String,String>()
+
+    private val loginViewModel = LoginViewModel(this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -27,7 +31,7 @@ class LoginFragment : Fragment() {
             val username = view.findViewById<EditText>(R.id.username)
             val password = view.findViewById<EditText>(R.id.password)
 
-            loginViewModel.TryToLogin(username?.text.toString(), password?.text.toString())
+            onLoginButtonClicked.invoke(username?.text.toString(), password?.text.toString())
         }
     }
 

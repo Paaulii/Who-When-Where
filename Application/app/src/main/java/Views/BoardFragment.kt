@@ -1,12 +1,11 @@
-package com.example.myapplication
+package Views
 
-import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.findFragment
 import androidx.navigation.Navigation
+import com.example.myapplication.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class BoardFragment : Fragment() {
@@ -24,11 +23,22 @@ class BoardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val toDo: (() -> Unit) = {
+            Log.d("TEST", "TO DO")
+        }
+
+        val inProg: (() -> Unit) = {
+            Log.d("TEST", "TO DO")
+        }
+
+        val done: (() -> Unit) = {
+            Log.d("TEST", "TO DO")
+        }
         childFragmentManager
             .beginTransaction()
-            .add(R.id.toDoTableFragment, TableFragment.NewInstance("TO DO"))
-            .add(R.id.inProgressTableFragment, TableFragment.NewInstance("IN PROGRESS"))
-            .add(R.id.doneTableFragment, TableFragment.NewInstance("DONE"))
+            .add(R.id.toDoTableFragment, TableFragment.NewInstance("TO DO",toDo))
+            .add(R.id.inProgressTableFragment, TableFragment.NewInstance("IN PROGRESS",inProg))
+            .add(R.id.doneTableFragment, TableFragment.NewInstance("DONE", done))
             .commit()
 
         view.findViewById<FloatingActionButton>(R.id.addTask).setOnClickListener {

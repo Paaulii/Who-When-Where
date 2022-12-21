@@ -1,4 +1,4 @@
-package com.example.myapplication
+package Views
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.example.myapplication.R
 
 class CreateTaskFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
