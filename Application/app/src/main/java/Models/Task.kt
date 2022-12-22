@@ -5,7 +5,7 @@ data class Task (
     var title : String,
     var description: String,
     var category: String,
-    var state: State,
+    var state: TaskState,
     var estimatedTime : String,
     var realTime : String,
     var id_u : Int)

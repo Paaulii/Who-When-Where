@@ -1,34 +1,31 @@
 package ViewModels
 
-import Models.State
+import Models.TaskState
 import Models.Task
 import Views.BoardFragment
-import Views.TableFragment
-import android.os.Bundle
-import android.os.Parcel
-import android.os.Parcelable
 import androidx.lifecycle.ViewModel
 
 
 class BoardViewModel (val boardView : BoardFragment) : ViewModel()
 {
-    val getToDoList: (() -> MutableList<Task>) = {
+    fun GetToDoList() : MutableList<Task>
+    {
         val taskList : MutableList<Task> = mutableListOf()
-        taskList.add(Task(1,"Zadanie dla to do","Description 1", "category1", State.ToDo,"1.5","2.0",1))
-        taskList
+        taskList.add(Task(1,"Zadanie dla to do","Description 1", "category1", TaskState.ToDo,"1.5","2.0",1))
+        return taskList
     }
 
-    val getInProgressList: (() -> MutableList<Task>) = {
+    fun GetInProgressList() : MutableList<Task>
+    {
         val taskList : MutableList<Task> = mutableListOf()
-        taskList.add(Task(1,"Zadanie dla in progress","Description 1", "category1", State.ToDo,"1.5","2.0",1))
-        taskList
+        taskList.add(Task(1,"Zadanie dla in progress","Description 1", "category1", TaskState.ToDo,"1.5","2.0",1))
+        return taskList
     }
 
-    val getDoneList: (() -> MutableList<Task>) = {
+    fun GetDoneList() : MutableList<Task>
+    {
         val taskList : MutableList<Task> = mutableListOf()
-        taskList.add(Task(1,"Zadanie dla done","Description 1", "category1", State.ToDo,"1.5","2.0",1))
-        taskList
+        taskList.add(Task(1,"Zadanie dla done","Description 1", "category1", TaskState.ToDo,"1.5","2.0",1))
+        return taskList
     }
-
-
 }

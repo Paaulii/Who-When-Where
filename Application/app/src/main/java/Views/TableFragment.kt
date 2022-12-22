@@ -20,8 +20,8 @@ private const val ARG_GET_LIST_FUNCTION = "GetListFunction"
 class TableFragment : Fragment() {
     var onInstanceCreated = EventOneParam<() -> MutableList<Task>>()
     var onGetAllReferences  = EventZeroParam()
-
     lateinit var recyclerView: RecyclerView
+
     private var tableViewModel = TableViewModel(this);
     private var header: String? = null
 

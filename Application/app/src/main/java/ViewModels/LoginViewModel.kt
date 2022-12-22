@@ -12,14 +12,17 @@ class LoginViewModel(val loginView: LoginFragment) : ViewModel()
 {
     private val loginRepository = LoginRepository()
 
-    init {
+    init
+    {
         loginView.onLoginButtonClicked += ::TryToLogin
     }
 
-    override fun onCleared() {
+    override fun onCleared()
+    {
         super.onCleared()
 
-        if (loginView != null){
+        if (loginView != null)
+        {
             loginView.onLoginButtonClicked -= ::TryToLogin
         }
     }

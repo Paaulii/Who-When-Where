@@ -1,6 +1,6 @@
 package Models
 
-enum class State {
+enum class TaskState {
     ToDo,
     InProgress,
     Done

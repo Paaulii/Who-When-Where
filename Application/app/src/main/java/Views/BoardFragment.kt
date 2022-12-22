@@ -1,12 +1,7 @@
 package Views
 
-import Models.State
-import Models.Task
-import Utils.EventZeroParam
 import ViewModels.BoardViewModel
-import ViewModels.TableViewModel
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
@@ -38,9 +33,9 @@ class BoardFragment : Fragment() {
     private fun InitTables(){
         childFragmentManager
             .beginTransaction()
-            .add(R.id.toDoTableFragment, TableFragment.NewInstance("TO DO", boardViewModel.getToDoList))
-            .add(R.id.inProgressTableFragment, TableFragment.NewInstance("IN PROGRESS",boardViewModel.getInProgressList))
-            .add(R.id.doneTableFragment, TableFragment.NewInstance("DONE", boardViewModel.getDoneList))
+            .add(R.id.toDoTableFragment, TableFragment.NewInstance("TO DO", boardViewModel::GetToDoList))
+            .add(R.id.inProgressTableFragment, TableFragment.NewInstance("IN PROGRESS",boardViewModel::GetInProgressList))
+            .add(R.id.doneTableFragment, TableFragment.NewInstance("DONE", boardViewModel::GetDoneList))
             .commit()
     }
 
