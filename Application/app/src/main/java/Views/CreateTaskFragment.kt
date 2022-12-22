@@ -5,9 +5,8 @@ import Models.Task
 import Models.TaskState
 import Models.User
 import Utils.EventOneParam
-import Utils.EventTwoParam
+import Utils.EventThreeParam
 import ViewModels.CreateTaskViewModel
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,8 +20,8 @@ import com.example.myapplication.R
 
 
 class CreateTaskFragment : Fragment() {
-    var onUserCreate = EventOneParam<Task>()
-    var onGetAllReferences  = EventTwoParam<Spinner, Spinner>()
+    var onTaskCreate = EventOneParam<Task>()
+    var onGetAllReferences  = EventThreeParam<Spinner, Spinner, Spinner>()
     private lateinit var userSpinner : Spinner
     private lateinit var tableTypeSpinner : Spinner
     private lateinit var titleText: EditText
@@ -78,7 +77,7 @@ class CreateTaskFragment : Fragment() {
         }
 
         dependencyCheckbox.setChecked(false);
-        onGetAllReferences.invoke(userSpinner, tableTypeSpinner)
+        onGetAllReferences.invoke(userSpinner, tableTypeSpinner, tasksSpinner)
     }
 
     private fun HandleTaskCreation()
@@ -98,7 +97,14 @@ class CreateTaskFragment : Fragment() {
                 user.id_u
             )
 
-            onUserCreate.invoke(newTask)
+            onTaskCreate.invoke(newTask)
+
+            if (dependencyCheckbox.isChecked){
+                // TO DO : insert to database dependency between created task and the chosen one.
+                // We need to get the last created task from database - id incrementation.
+            }
+
+
             Navigation.findNavController(requireView()).navigate(R.id.action_createTask_to_board)
         }
         else

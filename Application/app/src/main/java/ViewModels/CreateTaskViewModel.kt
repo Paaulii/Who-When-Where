@@ -8,7 +8,6 @@ import android.R
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,7 +18,7 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
     init
     {
         createTaskView.onGetAllReferences += ::HandleTaskCreationView
-        createTaskView.onUserCreate += ::CreateTask
+        createTaskView.onTaskCreate += ::CreateTask
     }
 
     override fun onCleared()
@@ -27,7 +26,7 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
         super.onCleared()
         if (createTaskView != null){
             createTaskView.onGetAllReferences -= ::HandleTaskCreationView
-            createTaskView.onUserCreate -= ::CreateTask
+            createTaskView.onTaskCreate -= ::CreateTask
         }
     }
 
@@ -37,12 +36,12 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
     }
 
     
-    fun HandleTaskCreationView(userSpinner: Spinner, tableTypeSpinner: Spinner)
+    fun HandleTaskCreationView(userSpinner: Spinner, tableTypeSpinner: Spinner, taskSpinner : Spinner)
     {
-        SetupSpinner(userSpinner, tableTypeSpinner)
+        SetupSpinner(userSpinner, tableTypeSpinner, taskSpinner)
     }
 
-    fun SetupSpinner(userSpinner: Spinner, tableTypeSpinner: Spinner)
+    fun SetupSpinner(userSpinner: Spinner, tableTypeSpinner: Spinner, taskSpinner : Spinner)
     {
         viewModelScope.launch(Dispatchers.IO){
             // TO DO: create dedicated class for getting all users in system and returning that list to this place.
@@ -62,6 +61,16 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
 
             val adapter = ArrayAdapter(createTaskView.requireContext(), R.layout.simple_spinner_item, tableTypes)
             tableTypeSpinner.adapter = adapter
+        }
+
+        viewModelScope.launch(Dispatchers.IO){
+            val tasks : MutableList<Task> = mutableListOf()
+
+            tasks.add(Task(0,"Task1","Desc","cat",TaskState.ToDo,"1","2",1))
+            tasks.add(Task(1,"Task2","Desc1","cat1",TaskState.ToDo,"1","2",1))
+
+            val adapter = ArrayAdapter(createTaskView.requireContext(), R.layout.simple_spinner_item, tasks)
+            taskSpinner.adapter = adapter
         }
     }
 }

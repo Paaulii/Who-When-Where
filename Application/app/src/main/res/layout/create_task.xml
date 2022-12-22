@@ -82,8 +82,7 @@
             android:id = "@+id/dependencyCheckbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Depends on other task?"
-            android:visibility="invisible"/>
+            android:text="Depends on other task?" />
 
 
         <TextView
