@@ -1,5 +1,7 @@
 package Views
 
+import Models.Task
+import Utils.EventOneParam
 import Utils.EventZeroParam
 import ViewModels.BoardViewModel
 import ViewModels.TableViewModel
@@ -16,10 +18,11 @@ private const val ARG_HEADER = "Header"
 private const val ARG_GET_LIST_FUNCTION = "GetListFunction"
 
 class TableFragment : Fragment() {
+    var onInstanceCreated = EventOneParam<() -> MutableList<Task>>()
     var onGetAllReferences  = EventZeroParam()
+
     lateinit var recyclerView: RecyclerView
     private var tableViewModel = TableViewModel(this);
-    var getTaskList: (() -> Unit)? = null
     private var header: String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -32,7 +35,6 @@ class TableFragment : Fragment() {
 
         view.findViewById<TextView>(R.id.headerText).text = header
         recyclerView = view.findViewById(R.id.recyclerView)
-        getTaskList?.invoke()
         onGetAllReferences.invoke()
     }
 
@@ -46,14 +48,13 @@ class TableFragment : Fragment() {
 
     companion object {
         @JvmStatic
-       fun NewInstance(header: String, listGetterMethod : () -> Unit) =
-       // fun NewInstance(header: String) =
+       fun NewInstance(header: String, listGetterMethod : () -> MutableList<Task>) =
             TableFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_HEADER, header)
                 }
 
-                getTaskList = listGetterMethod
+                onInstanceCreated.invoke(listGetterMethod)
             }
     }
 }

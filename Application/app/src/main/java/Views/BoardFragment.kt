@@ -1,5 +1,10 @@
 package Views
 
+import Models.State
+import Models.Task
+import Utils.EventZeroParam
+import ViewModels.BoardViewModel
+import ViewModels.TableViewModel
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -9,6 +14,7 @@ import com.example.myapplication.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class BoardFragment : Fragment() {
+    private var boardViewModel = BoardViewModel(this);
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,27 +29,19 @@ class BoardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val toDo: (() -> Unit) = {
-            Log.d("TEST", "TO DO")
-        }
-
-        val inProg: (() -> Unit) = {
-            Log.d("TEST", "TO DO")
-        }
-
-        val done: (() -> Unit) = {
-            Log.d("TEST", "TO DO")
-        }
-        childFragmentManager
-            .beginTransaction()
-            .add(R.id.toDoTableFragment, TableFragment.NewInstance("TO DO",toDo))
-            .add(R.id.inProgressTableFragment, TableFragment.NewInstance("IN PROGRESS",inProg))
-            .add(R.id.doneTableFragment, TableFragment.NewInstance("DONE", done))
-            .commit()
-
+        InitTables()
         view.findViewById<FloatingActionButton>(R.id.addTask).setOnClickListener {
             Navigation.findNavController(requireView()).navigate(R.id.action_board_to_createTask)
         }
+    }
+
+    private fun InitTables(){
+        childFragmentManager
+            .beginTransaction()
+            .add(R.id.toDoTableFragment, TableFragment.NewInstance("TO DO", boardViewModel.getToDoList))
+            .add(R.id.inProgressTableFragment, TableFragment.NewInstance("IN PROGRESS",boardViewModel.getInProgressList))
+            .add(R.id.doneTableFragment, TableFragment.NewInstance("DONE", boardViewModel.getDoneList))
+            .commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
