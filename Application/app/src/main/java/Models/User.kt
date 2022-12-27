@@ -1,5 +1,6 @@
 package Models
 
+@kotlinx.serialization.Serializable
 data class User (
     val id_u: Int,
     val name : String,

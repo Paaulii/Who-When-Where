@@ -8,13 +8,13 @@ import java.net.URL
 
 class CreateTaskRepository
 {
-    val queryURLstring = "https://io.kamil.top:20420/addtask"
+    val createTaskURLstring = "https://io.kamil.top:20420/addtask"
 
     suspend fun CreateTaskRequest(jsonBody: String)
     {
         return withContext(Dispatchers.IO)
         {
-            val url = URL(queryURLstring)
+            val url = URL(createTaskURLstring)
             val con = url.openConnection() as HttpURLConnection
 
             con.doOutput = true

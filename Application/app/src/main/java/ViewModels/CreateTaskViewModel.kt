@@ -1,9 +1,6 @@
 package ViewModels
 
-import Models.CreateTaskRepository
-import Models.Task
-import Models.TaskState
-import Models.User
+import Models.*
 import Views.CreateTaskFragment
 import android.R
 import android.util.Log
@@ -13,8 +10,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+
+private const val GET_ALL_USERS = "select * from user"
 
 class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel()
 {
@@ -54,12 +54,13 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
     {
         viewModelScope.launch(Dispatchers.IO){
             // TO DO: create dedicated class for getting all users in system and returning that list to this place.
-            val users : MutableList<User> = mutableListOf()
+            var users : MutableList<User> = mutableListOf()
+
+            //users = Json.decodeFromString<MutableList<User>>(jsonStr)
 
             users.add(User(0,"Paulina","Hałatek","phalatek","trudneHaslo1",123))
             users.add(User(1,"Kamil","Maciantowicz","kMaciantowicz","trudneHaslo2",345))
             users.add(User(2,"Paweł","Noras","pNoras","trudneHaslo3",564))
-
 
             val adapter = ArrayAdapter(createTaskView.requireContext(), R.layout.simple_spinner_item, users)
             userSpinner.adapter = adapter

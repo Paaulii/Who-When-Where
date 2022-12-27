@@ -23,11 +23,11 @@
     <string name="save_task">Save task</string>
     <string name="back">Back</string>
     <string name="report">Report</string>
-    <string name="taskCompleted">Number of completed tasks:</string>
-    <string name="inProgressTasks">In progress tasks: </string>
-    <string name="toDoTasks">To do tasks:</string>
-    <string name="totalEstimatedTime">Total estimated time: </string>
-    <string name="totalRealTime">Total real time: </string>
+    <string name="taskCompleted">Number of completed tasks:  </string>
+    <string name="inProgressTasks">In progress tasks:  </string>
+    <string name="toDoTasks">To do tasks:  </string>
+    <string name="totalEstimatedTime">Total estimated time:   </string>
+    <string name="totalRealTime">Total real time:  </string>
     <string name="Board">Board</string>
     <string name="category">Category</string>
 </resources>
