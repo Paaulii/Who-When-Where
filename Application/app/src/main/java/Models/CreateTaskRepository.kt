@@ -6,15 +6,15 @@ import kotlinx.coroutines.withContext
 import java.net.HttpURLConnection
 import java.net.URL
 
-class LoginRepository
+class CreateTaskRepository
 {
-    val loginURLstring = "https://io.kamil.top:20420/login"
+    val queryURLstring = "https://io.kamil.top:20420/addtask"
 
-    suspend fun MakeLoginRequest(jsonBody: String) : Boolean
+    suspend fun CreateTaskRequest(jsonBody: String)
     {
         return withContext(Dispatchers.IO)
         {
-            val url = URL(loginURLstring)
+            val url = URL(queryURLstring)
             val con = url.openConnection() as HttpURLConnection
 
             con.doOutput = true
@@ -26,23 +26,14 @@ class LoginRepository
                 os.write(input, 0, input.size)
             }
 
-            var result = false
-
             con.inputStream.bufferedReader().use {
                 try {
                     val ret = it.readText()
-                    if (ret == "True\n")
-                    {
-                        result = true
-                    }
-                    else {}
                 } catch (e: Exception)
                 {
                     Log.d("NETWORK-ERROR", e.message!!)
                 }
             }
-
-            result
         }
     }
 }

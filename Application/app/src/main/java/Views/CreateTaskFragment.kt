@@ -87,13 +87,12 @@ class CreateTaskFragment : Fragment() {
             val user : User  =  userSpinner.selectedItem as User
 
             var newTask : Task = Task(
-                0,
                 titleText.text.toString(),
                 description.text.toString(),
                 category.text.toString(),
-                TaskState.values()[tableTypeSpinner.getSelectedItemPosition()],
-                estimatedTime.text.toString(),
-                realTime.text.toString(),
+                tableTypeSpinner.selectedItem.toString(),
+                estimatedTime.text.toString().toFloat(),
+                realTime.text.toString().toFloat(),
                 user.id_u
             )
 

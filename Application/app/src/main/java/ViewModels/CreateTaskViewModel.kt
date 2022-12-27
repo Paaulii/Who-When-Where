@@ -1,19 +1,24 @@
 package ViewModels
 
+import Models.CreateTaskRepository
 import Models.Task
 import Models.TaskState
 import Models.User
 import Views.CreateTaskFragment
 import android.R
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel()
 {
+    private val createTaskRepository  = CreateTaskRepository()
 
     init
     {
@@ -32,7 +37,11 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
 
     fun CreateTask(task: Task)
     {
-        // TO DO: send new task to server - mysql insert must be without task id, it should auto increment that value in database.
+        viewModelScope.launch {
+            val jsonTask = Json.encodeToString(task)
+            Log.d("TASK",jsonTask)
+            createTaskRepository.CreateTaskRequest(jsonTask)
+        }
     }
 
     
@@ -57,7 +66,7 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
         }
 
         viewModelScope.launch(Dispatchers.IO){
-            val tableTypes  = listOf("To Do", "In Progress", "Done")
+            val tableTypes  = listOf("To do", "In progress", "Done")
 
             val adapter = ArrayAdapter(createTaskView.requireContext(), R.layout.simple_spinner_item, tableTypes)
             tableTypeSpinner.adapter = adapter
@@ -66,8 +75,8 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
         viewModelScope.launch(Dispatchers.IO){
             val tasks : MutableList<Task> = mutableListOf()
 
-            tasks.add(Task(0,"Task1","Desc","cat",TaskState.ToDo,"1","2",1))
-            tasks.add(Task(1,"Task2","Desc1","cat1",TaskState.ToDo,"1","2",1))
+            tasks.add(Task("Task1","Desc","cat","To do",1.0f,2.0f,1))
+            tasks.add(Task("Task2","Desc1","cat1","In progress",1.0f,1.0f,1))
 
             val adapter = ArrayAdapter(createTaskView.requireContext(), R.layout.simple_spinner_item, tasks)
             taskSpinner.adapter = adapter
