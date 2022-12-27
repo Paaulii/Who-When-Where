@@ -36,6 +36,10 @@
         <action
             android:id="@+id/action_createTask_to_board"
             app:destination="@id/board" />
+        <argument
+            android:name="taskID"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
     <fragment
         android:id="@+id/report"

@@ -36,4 +36,21 @@ class CreateTaskRepository
             }
         }
     }
+
+    suspend fun EditTaskRequest(jsonBody: String)
+    {
+        return withContext(Dispatchers.IO)
+        {
+            // TODO Do proper implementation
+        }
+    }
+
+    suspend fun GetTask(taskID: Int) : Task
+    {
+        return withContext(Dispatchers.IO)
+        {
+            // TODO Implement proper getter task from server
+            Task("Edited task", "Some other description", "Category-5", "Done", 5.0f, 1.0f, 2)
+        }
+    }
 }

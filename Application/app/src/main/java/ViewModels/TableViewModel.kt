@@ -3,9 +3,12 @@ package ViewModels
 import Models.Task
 import Models.TaskItemAdapter
 import Views.TableFragment
+import androidx.core.os.bundleOf
 
 import androidx.lifecycle.ViewModel
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myapplication.R
 
 class TableViewModel(val tableView: TableFragment) : ViewModel()
 {
@@ -66,6 +69,8 @@ class TableViewModel(val tableView: TableFragment) : ViewModel()
 
     private fun GetTaskDetails(task:Task)
     {
+        val bundle = bundleOf("taskID" to task.id_t)
+        Navigation.findNavController(tableView.requireView()).navigate(R.id.action_board_to_createTask, bundle)
         // TO DO: create a layout for task details and naviation from board fragment to it.
     }
 }

@@ -13,24 +13,24 @@
         android:orientation="horizontal"
         android:contentDescription="@string/app_name">
         <LinearLayout
-            android:layout_width="410sp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:fillViewport="true"
             android:orientation="horizontal">
 
             <FrameLayout
                 android:id="@+id/toDoTableFragment"
-                android:layout_width="410sp"
+                android:layout_width="390dp"
                 android:layout_height="match_parent"/>
 
             <FrameLayout
                 android:id="@+id/inProgressTableFragment"
-                android:layout_width="410sp"
+                android:layout_width="390dp"
                 android:layout_height="match_parent"/>
 
             <FrameLayout
                 android:id="@+id/doneTableFragment"
-                android:layout_width="410sp"
+                android:layout_width="390dp"
                 android:layout_height="match_parent"/>
 
         </LinearLayout>

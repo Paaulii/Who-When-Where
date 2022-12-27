@@ -5,17 +5,22 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/mainTitle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Task creation"
+            android:text="Task Creation"
             android:textAlignment="center"
-            android:textSize="50sp"/>
+            android:textSize="50sp" />
 
         <EditText
             android:id="@+id/title"
@@ -23,27 +28,26 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="@string/task_creation_title"/>
+            android:hint="@string/task_creation_title"
+            android:inputType="textPersonName" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Task board"
-            android:textSize="15sp"/>
+            android:text="Status"
+            android:textSize="15sp" />
 
         <Spinner
             android:id="@+id/tableTypeSpinner"
             android:layout_width="match_parent"
-            android:layout_height="40sp"  />
+            android:layout_height="40sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Participants"
-            android:textSize="15sp"
             android:ems="10"
-            />
+            android:text="Participant"
+            android:textSize="15sp" />
 
         <Spinner
             android:id="@+id/users_spinner"
@@ -54,32 +58,32 @@
             android:id="@+id/category"
             android:layout_width="match_parent"
             android:layout_height="60sp"
-            android:hint="@string/category"/>
+            android:hint="@string/category" />
 
         <EditText
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="60sp"
-            android:hint="@string/task_creation_description"/>
+            android:hint="@string/task_creation_description" />
 
         <EditText
             android:id="@+id/estimated_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="@string/task_creation_estimated_time"/>
+            android:hint="@string/task_creation_estimated_time"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/real_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="@string/task_creation_real_time"/>
+            android:hint="@string/task_creation_real_time"
+            android:inputType="textPersonName" />
 
         <CheckBox
-            android:id = "@+id/dependencyCheckbox"
+            android:id="@+id/dependencyCheckbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Depends on other task?" />
@@ -91,13 +95,13 @@
             android:layout_height="wrap_content"
             android:text="Task dependency causer"
             android:textSize="15sp"
-            android:visibility="invisible"/>
+            android:visibility="invisible" />
 
         <Spinner
             android:id="@+id/tasks_spinner"
             android:layout_width="match_parent"
             android:layout_height="40sp"
-            android:visibility="invisible"/>
+            android:visibility="invisible" />
 
 
         <Button
@@ -105,7 +109,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text = "@string/save_task"/>
+            android:text="@string/save_task" />
 
 
     </LinearLayout>
@@ -117,5 +121,6 @@
         android:text="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 </androidx.constraintlayout.widget.ConstraintLayout>
