@@ -9,6 +9,9 @@ import java.net.URL
 class CreateTaskRepository
 {
     val createTaskURLstring = "https://io.kamil.top:20420/addtask"
+    val getUsersURLString = "https://io.kamil.top:20420/users"
+    val getAllTaskURLString = "https://io.kamil.top:20420/tasks"
+    val getAllExceptOneTaskURLString = "https://io.kamil.top:20420/tasks?drop="
 
     suspend fun CreateTaskRequest(jsonBody: String)
     {
@@ -37,6 +40,72 @@ class CreateTaskRepository
         }
     }
 
+    suspend fun GetAllTaskExcept(taskID : Int) : String{
+        return withContext(Dispatchers.IO)
+        {
+            val url = URL(getAllExceptOneTaskURLString + taskID.toString())
+            val con = url.openConnection() as HttpURLConnection
+
+            con.setRequestProperty("Content-Type", "application/json")
+
+            var tasks = ""
+            con.inputStream.bufferedReader().use {
+                try {
+                    tasks = it.readText()
+                } catch (e: Exception)
+                {
+                    Log.d("NETWORK-ERROR", e.message!!)
+                }
+            }
+
+            tasks
+        }
+    }
+
+    suspend fun GetAllTask() : String{
+        return withContext(Dispatchers.IO)
+        {
+            val url = URL(getAllTaskURLString)
+            val con = url.openConnection() as HttpURLConnection
+
+            con.setRequestProperty("Content-Type", "application/json")
+
+            var tasks = ""
+            con.inputStream.bufferedReader().use {
+                try {
+                    tasks = it.readText()
+                } catch (e: Exception)
+                {
+                    Log.d("NETWORK-ERROR", e.message!!)
+                }
+            }
+
+            tasks
+        }
+    }
+
+    suspend fun GetUsers() : String{
+        return withContext(Dispatchers.IO)
+        {
+            val url = URL(getUsersURLString)
+            val con = url.openConnection() as HttpURLConnection
+
+            con.setRequestProperty("Content-Type", "application/json")
+
+            var users = ""
+            con.inputStream.bufferedReader().use {
+                try {
+                    users = it.readText()
+                } catch (e: Exception)
+                {
+                    Log.d("NETWORK-ERROR", e.message!!)
+                }
+            }
+
+            users
+        }
+    }
+
     suspend fun EditTaskRequest(jsonBody: String)
     {
         return withContext(Dispatchers.IO)
@@ -50,7 +119,7 @@ class CreateTaskRepository
         return withContext(Dispatchers.IO)
         {
             // TODO Implement proper getter task from server
-            Task("Edited task", "Some other description", "Category-5", "Done", 5.0f, 1.0f, 2)
+            Task(-1, "Edited task", "Some other description", "Category-5", "Done", 5.0f, 1.0f, 2, null)
         }
     }
 }

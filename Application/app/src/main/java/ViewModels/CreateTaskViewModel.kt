@@ -3,6 +3,7 @@ package ViewModels
 import Models.*
 import Views.CreateTaskFragment
 import android.R
+import android.os.Looper
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Spinner
@@ -14,14 +15,13 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-private const val GET_ALL_USERS = "select * from user"
 
 class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel()
 {
     private val createTaskRepository  = CreateTaskRepository()
 
-    val users : MutableList<User> = mutableListOf()
-    val tasks : MutableList<Task> = mutableListOf()
+    var users : MutableList<User> = mutableListOf()
+    var tasks : MutableList<Task> = mutableListOf()
     val tableTypes  = listOf("To do", "In progress", "Done")
 
     init
@@ -68,20 +68,24 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
     
     fun HandleTaskCreationView(userSpinner: Spinner, tableTypeSpinner: Spinner, taskSpinner : Spinner)
     {
-        SetupSpinner(userSpinner, tableTypeSpinner, taskSpinner)
+        SetupSpinners(userSpinner, tableTypeSpinner, taskSpinner)
     }
 
-    fun SetupSpinner(userSpinner: Spinner, tableTypeSpinner: Spinner, taskSpinner : Spinner)
+    fun SetupSpinners(userSpinner: Spinner, tableTypeSpinner: Spinner, taskSpinner : Spinner)
     {
         viewModelScope.launch(Dispatchers.IO){
-            // TO DO: create dedicated class for getting all users in system and returning that list to this place.
-
-            users.add(User(0,"Paulina","Hałatek","phalatek","trudneHaslo1",123))
-            users.add(User(1,"Kamil","Maciantowicz","kMaciantowicz","trudneHaslo2",345))
-            users.add(User(2,"Paweł","Noras","pNoras","trudneHaslo3",564))
-
-            val adapter = ArrayAdapter(createTaskView.requireContext(), R.layout.simple_spinner_item, users)
-            userSpinner.adapter = adapter
+            users = Json.decodeFromString<MutableList<User>>(createTaskRepository.GetUsers())
+            Log.d("TASK ",createTaskRepository.GetUsers().toString())
+            // Updating view must be called on a main thread
+            val handler = android.os.Handler(Looper.getMainLooper())
+            handler.post {
+                val adapter = ArrayAdapter(
+                    createTaskView.requireContext(),
+                    R.layout.simple_spinner_item,
+                    users
+                )
+                userSpinner.adapter = adapter
+            }
         }
 
         viewModelScope.launch(Dispatchers.IO){
@@ -92,11 +96,30 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
 
         viewModelScope.launch(Dispatchers.IO){
 
-            tasks.add(Task("Task1","Desc","cat","To do",1.0f,2.0f,1))
-            tasks.add(Task("Task2","Desc1","cat1","In progress",1.0f,1.0f,1))
+            val taskID = createTaskView.taskID
 
-            val adapter = ArrayAdapter(createTaskView.requireContext(), R.layout.simple_spinner_item, tasks)
-            taskSpinner.adapter = adapter
+            if ( taskID == null || taskID != -1)
+            {
+                tasks = Json.decodeFromString<MutableList<Task>>(createTaskRepository.GetAllTask())
+            }
+            else
+            {
+                tasks = Json.decodeFromString<MutableList<Task>>(createTaskRepository.GetAllTaskExcept(taskID))
+            }
+
+            //tasks.add(Task("Task1","Desc","cat","To do",1.0f,2.0f,1, null))
+            //tasks.add(Task("Task2","Desc1","cat1","In progress",1.0f,1.0f,1, null))
+
+            val handler = android.os.Handler(Looper.getMainLooper())
+            handler.post {
+                val adapter = ArrayAdapter(
+                    createTaskView.requireContext(),
+                    R.layout.simple_spinner_item,
+                    tasks
+                )
+                taskSpinner.adapter = adapter
+            }
+
         }
     }
 }

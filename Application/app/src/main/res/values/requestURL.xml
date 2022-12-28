@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources >
+    <string name="getAllToDoTasks">https://io.kamil.top:20420/tasks?status=To+do</string>
+    <string name="getAllInProgressTasks">https://io.kamil.top:20420/tasks?status=In+progress</string>
+    <string name="getAllDoneTasks">https://io.kamil.top:20420/tasks?status=Done</string>
+</resources>

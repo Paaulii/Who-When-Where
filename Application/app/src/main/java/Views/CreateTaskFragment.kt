@@ -23,8 +23,11 @@ class CreateTaskFragment : Fragment() {
     var onTaskCreate = EventOneParam<Task>()
     var onTaskEdited = EventOneParam<Task>()
     var onGetAllReferences  = EventThreeParam<Spinner, Spinner, Spinner>()
+    var taskID : Int? = null
+
+
     private lateinit var userSpinner : Spinner
-    private lateinit var tableTypeSpinner : Spinner
+    private lateinit var taskStateSpinner : Spinner
     private lateinit var titleText: EditText
     private lateinit var category: EditText
     private lateinit var description: EditText
@@ -33,8 +36,6 @@ class CreateTaskFragment : Fragment() {
     private lateinit var dependencyCheckbox: CheckBox
     private lateinit var causerText : TextView
     private lateinit var tasksSpinner: Spinner
-
-    private lateinit var taskState: TaskState
 
     private var createTaskViewModel  = CreateTaskViewModel(this)
 
@@ -49,7 +50,7 @@ class CreateTaskFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         userSpinner = view.findViewById(R.id.users_spinner)
-        tableTypeSpinner = view.findViewById(R.id.tableTypeSpinner)
+        taskStateSpinner = view.findViewById(R.id.tableTypeSpinner)
         titleText = view.findViewById(R.id.title)
         category = view.findViewById(R.id.category)
         description = view.findViewById(R.id.description)
@@ -79,24 +80,28 @@ class CreateTaskFragment : Fragment() {
             }
         }
 
-        dependencyCheckbox.isChecked = false;
-        onGetAllReferences.invoke(userSpinner, tableTypeSpinner, tasksSpinner)
-
-        val id = arguments?.getInt("taskID")
+        taskID = arguments?.getInt("taskID")
         val mainTitle = view.findViewById<TextView>(R.id.mainTitle)
 
-        if (id != null && id != -1)
+        if (taskID != null && taskID != -1)
         {
             mainTitle.text = "Task Edition"
             OnSaveButtonClickedFun = ::HandleTaskEdit
-            createTaskViewModel.TryGetTask(id)
+            createTaskViewModel.TryGetTask(taskID!!)
         }
+
+        dependencyCheckbox.isChecked = false;
+        onGetAllReferences.invoke(userSpinner, taskStateSpinner, tasksSpinner)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
     }
 
     fun InitTaskInformation(task: Task)
     {
         titleText.setText(task.title)
-        tableTypeSpinner.setSelection(createTaskViewModel.tableTypes.indexOfFirst { task.status == it })
+        taskStateSpinner.setSelection(createTaskViewModel.tableTypes.indexOfFirst { task.status == it })
         userSpinner.setSelection(createTaskViewModel.users.indexOfFirst{ it.id_u == task.id_u })
         category.setText(task.category)
         description.setText(task.description)
@@ -107,15 +112,10 @@ class CreateTaskFragment : Fragment() {
 
     private fun HandleTaskCreation()
     {
-        if (AreAllFieldsFilled())
+        if (AreAllFieldsFilled() && CheckNumberFields())
         {
             val newTask = GenerateTaskObject()
             onTaskCreate.invoke(newTask)
-
-            if (dependencyCheckbox.isChecked){
-                // TO DO : insert to database dependency between created task and the chosen one.
-                // We need to get the last created task from database - id incrementation.
-            }
 
             Navigation.findNavController(requireView()).navigate(R.id.action_createTask_to_board)
         }
@@ -128,7 +128,7 @@ class CreateTaskFragment : Fragment() {
 
     private fun HandleTaskEdit()
     {
-        if (AreAllFieldsFilled())
+        if (AreAllFieldsFilled() && CheckNumberFields())
         {
             val taskID = arguments?.getInt("taskID")!!
 
@@ -136,11 +136,6 @@ class CreateTaskFragment : Fragment() {
             newTask.id_t = taskID
 
             onTaskEdited.invoke(newTask)
-
-            if (dependencyCheckbox.isChecked){
-                // TO DO : insert to database dependency between created task and the chosen one.
-                // We need to get the last created task from database - id incrementation.
-            }
 
             Navigation.findNavController(requireView()).navigate(R.id.action_createTask_to_board)
         }
@@ -153,20 +148,31 @@ class CreateTaskFragment : Fragment() {
     private fun GenerateTaskObject() : Task
     {
         val user : User  =  userSpinner.selectedItem as User
+        val isTaskDependent = dependencyCheckbox.isChecked()
+
+        var blockedBy : Int? = null
+
+        if (isTaskDependent){
+            val blockingTask : Task = tasksSpinner.selectedItem as Task
+            blockedBy = blockingTask.id_t
+        }
+
         return Task(
+            -1,
                 titleText.text.toString(),
                 description.text.toString(),
                 category.text.toString(),
-                tableTypeSpinner.selectedItem.toString(),
+                taskStateSpinner.selectedItem.toString(),
                 estimatedTime.text.toString().toFloat(),
                 realTime.text.toString().toFloat(),
-                user.id_u)
+                user.id_u,
+                blockedBy)
     }
 
-    fun AreAllFieldsFilled() : Boolean
+    private fun AreAllFieldsFilled() : Boolean
     {
         if (userSpinner.selectedItem.toString().isNotEmpty() &&
-            tableTypeSpinner.selectedItem.toString().isNotEmpty() &&
+            taskStateSpinner.selectedItem.toString().isNotEmpty() &&
             titleText.text.isNotEmpty() && category.text.isNotEmpty() &&
             description.text.isNotEmpty() && estimatedTime.text.isNotEmpty() &&
             realTime.text.isNotEmpty()
@@ -177,7 +183,16 @@ class CreateTaskFragment : Fragment() {
         return false
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private fun CheckNumberFields() : Boolean {
+        if (IsNumeric(estimatedTime.text.toString()) && IsNumeric(realTime.text.toString()))
+        {
+            return true
+        }
+
+        return false
+    }
+
+    private fun IsNumeric(toCheck: String): Boolean {
+        return toCheck.all { char -> char.isDigit() }
     }
 }

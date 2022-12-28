@@ -6,14 +6,17 @@ import Views.TableFragment
 import androidx.core.os.bundleOf
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class TableViewModel(val tableView: TableFragment) : ViewModel()
 {
     private lateinit var adapter : TaskItemAdapter
-    private lateinit var getTaskList :  (() -> MutableList<Task>)
+    private lateinit var getTaskList :  suspend (() -> MutableList<Task>)
 
     init
     {
@@ -33,7 +36,7 @@ class TableViewModel(val tableView: TableFragment) : ViewModel()
         tableView.onInstanceCreated += :: HandleOnTableInstanceCreation
     }
 
-    fun HandleOnTableInstanceCreation(getListMethod : (() -> MutableList<Task>))
+    fun HandleOnTableInstanceCreation(getListMethod : suspend (() -> MutableList<Task>))
     {
         getTaskList = getListMethod
     }
@@ -58,13 +61,15 @@ class TableViewModel(val tableView: TableFragment) : ViewModel()
 
     private fun InitRecycleViewer()
     {
-        val taskList : MutableList<Task> = getTaskList.invoke()
+        viewModelScope.launch(Dispatchers.IO) {
+            val taskList: MutableList<Task> = getTaskList.invoke()
 
-        adapter = TaskItemAdapter(taskList)
-        adapter.onButtonClicked += ::GetTaskDetails
+            adapter = TaskItemAdapter(taskList)
+            adapter.onButtonClicked += ::GetTaskDetails
 
-        tableView.recyclerView.adapter = adapter
-        tableView.recyclerView.layoutManager = LinearLayoutManager(tableView.requireContext())
+            tableView.recyclerView.adapter = adapter
+            tableView.recyclerView.layoutManager = LinearLayoutManager(tableView.requireContext())
+        }
     }
 
     private fun GetTaskDetails(task:Task)

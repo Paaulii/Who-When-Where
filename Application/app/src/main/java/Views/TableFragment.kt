@@ -18,7 +18,7 @@ private const val ARG_HEADER = "Header"
 private const val ARG_GET_LIST_FUNCTION = "GetListFunction"
 
 class TableFragment : Fragment() {
-    var onInstanceCreated = EventOneParam<() -> MutableList<Task>>()
+    var onInstanceCreated = EventOneParam<suspend () -> MutableList<Task>>()
     var onGetAllReferences  = EventZeroParam()
     lateinit var recyclerView: RecyclerView
 
@@ -48,7 +48,7 @@ class TableFragment : Fragment() {
 
     companion object {
         @JvmStatic
-       fun NewInstance(header: String, listGetterMethod : () -> MutableList<Task>) =
+       fun NewInstance(header: String, listGetterMethod : suspend () -> MutableList<Task>) =
             TableFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_HEADER, header)

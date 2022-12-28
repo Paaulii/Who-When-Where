@@ -1,31 +1,42 @@
 package ViewModels
 
-import Models.TaskState
+import Models.BoardRepository
 import Models.Task
+
 import Views.BoardFragment
+
 import androidx.lifecycle.ViewModel
+import com.example.myapplication.R
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 
 
 class BoardViewModel (val boardView : BoardFragment) : ViewModel()
 {
-    fun GetToDoList() : MutableList<Task>
+    private val boardRepository = BoardRepository()
+
+    suspend fun GetToDoList() : MutableList<Task>
     {
-        val taskList : MutableList<Task> = mutableListOf()
-        taskList.add(Task("Zadanie dla to do","Description 1", "category1", "To do",1.5f,2.0f,1))
+
+        val url : String =  boardView.resources.getString(R.string.getAllToDoTasks)
+        val taskList : MutableList<Task>  = Json.decodeFromString<MutableList<Task>>(boardRepository.GetTasks(url))
+
         return taskList
     }
 
-    fun GetInProgressList() : MutableList<Task>
+    suspend fun GetInProgressList() : MutableList<Task>
     {
-        val taskList : MutableList<Task> = mutableListOf()
-        taskList.add(Task("Zadanie dla in progress","Description 1", "category1", "In progress",1.5f,2.0f,1))
+        val url : String =  boardView.resources.getString(R.string.getAllInProgressTasks)
+        val taskList : MutableList<Task>  = Json.decodeFromString<MutableList<Task>>(boardRepository.GetTasks(url))
+
         return taskList
     }
 
-    fun GetDoneList() : MutableList<Task>
+    suspend fun GetDoneList() : MutableList<Task>
     {
-        val taskList : MutableList<Task> = mutableListOf()
-        taskList.add(Task("Zadanie dla done","Description 1", "category1", "Done",1.5f,2.0f,1))
+        val url : String =  boardView.resources.getString(R.string.getAllDoneTasks)
+        val taskList : MutableList<Task>  = Json.decodeFromString<MutableList<Task>>(boardRepository.GetTasks(url))
+
         return taskList
     }
 }
