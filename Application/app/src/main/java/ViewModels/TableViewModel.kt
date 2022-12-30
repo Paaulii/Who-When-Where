@@ -3,6 +3,8 @@ package ViewModels
 import Models.Task
 import Models.TaskItemAdapter
 import Views.TableFragment
+import android.os.Looper
+import android.widget.ArrayAdapter
 import androidx.core.os.bundleOf
 
 import androidx.lifecycle.ViewModel
@@ -67,8 +69,12 @@ class TableViewModel(val tableView: TableFragment) : ViewModel()
             adapter = TaskItemAdapter(taskList)
             adapter.onButtonClicked += ::GetTaskDetails
 
-            tableView.recyclerView.adapter = adapter
-            tableView.recyclerView.layoutManager = LinearLayoutManager(tableView.requireContext())
+            val handler = android.os.Handler(Looper.getMainLooper())
+            handler.post {
+                tableView.recyclerView.adapter = adapter
+                tableView.recyclerView.layoutManager = LinearLayoutManager(tableView.requireContext())
+            }
+
         }
     }
 

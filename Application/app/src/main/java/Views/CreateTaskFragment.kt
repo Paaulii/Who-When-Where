@@ -184,15 +184,12 @@ class CreateTaskFragment : Fragment() {
     }
 
     private fun CheckNumberFields() : Boolean {
-        if (IsNumeric(estimatedTime.text.toString()) && IsNumeric(realTime.text.toString()))
+        if (estimatedTime.text.toString().toFloatOrNull() != null &&
+                realTime.text.toString().toFloatOrNull() != null)
         {
             return true
         }
 
         return false
-    }
-
-    private fun IsNumeric(toCheck: String): Boolean {
-        return toCheck.all { char -> char.isDigit() }
     }
 }
