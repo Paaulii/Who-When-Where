@@ -10,32 +10,36 @@ import com.example.myapplication.R
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
-
 class BoardViewModel (val boardView : BoardFragment) : ViewModel()
 {
     private val boardRepository = BoardRepository()
 
     suspend fun GetToDoList() : MutableList<Task>
     {
-
-        val url : String =  boardView.resources.getString(R.string.getAllToDoTasks)
-        val taskList : MutableList<Task>  = Json.decodeFromString<MutableList<Task>>(boardRepository.GetTasks(url))
-
-        return taskList
+        return GetTaskList(boardView.resources.getString(R.string.getAllToDoTasks))
     }
 
     suspend fun GetInProgressList() : MutableList<Task>
     {
-        val url : String =  boardView.resources.getString(R.string.getAllInProgressTasks)
-        val taskList : MutableList<Task>  = Json.decodeFromString<MutableList<Task>>(boardRepository.GetTasks(url))
-
-        return taskList
+        return GetTaskList(boardView.resources.getString(R.string.getAllInProgressTasks))
     }
 
     suspend fun GetDoneList() : MutableList<Task>
     {
-        val url : String =  boardView.resources.getString(R.string.getAllDoneTasks)
-        val taskList : MutableList<Task>  = Json.decodeFromString<MutableList<Task>>(boardRepository.GetTasks(url))
+        return GetTaskList(boardView.resources.getString(R.string.getAllDoneTasks))
+    }
+
+    suspend fun GetTaskList(url: String) : MutableList<Task>
+    {
+        val taskList : MutableList<Task>
+        val json = boardRepository.GetTasks(url)
+        taskList = if (json.contains('['))
+        {
+            Json.decodeFromString<MutableList<Task>>(json)
+        } else
+        {
+            mutableListOf(Json.decodeFromString<Task>(json))
+        }
 
         return taskList
     }

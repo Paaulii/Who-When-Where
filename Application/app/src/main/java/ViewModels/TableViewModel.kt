@@ -67,8 +67,7 @@ class TableViewModel(val tableView: TableFragment) : ViewModel()
             adapter = TaskItemAdapter(taskList)
             adapter.onButtonClicked += ::GetTaskDetails
 
-            tableView.recyclerView.adapter = adapter
-            tableView.recyclerView.layoutManager = LinearLayoutManager(tableView.requireContext())
+            tableView.SetAdapter(adapter)
         }
     }
 
