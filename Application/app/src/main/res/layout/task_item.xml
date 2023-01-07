@@ -22,13 +22,22 @@
             android:text="Task"
             android:textSize="20sp" />
 
-        <Button
-            android:id="@+id/detailsBtn"
+        <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="Details" />
+            android:layout_height="40dp"
+            app:cardBackgroundColor="@color/gray"
+            app:cardCornerRadius="20dp"
+            android:layout_margin="5dp">
 
+            <Button
+                android:id="@+id/detailsBtn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="@color/transparent"
+                android:text="Details" />
+
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

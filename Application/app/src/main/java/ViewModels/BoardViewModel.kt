@@ -35,6 +35,13 @@ class BoardViewModel (val boardView : BoardFragment) : ViewModel()
     {
         var groupByUser: User? = null
         var groupByCategory: String? = null
+
+        fun GetGroupByConditions() : String
+        {
+            val userCondition = if (groupByUser != null) "&id_u=" + groupByUser?.id_u.toString() else ""
+            val categoryCondition = if (groupByCategory != null) "&category=$groupByCategory" else ""
+            return userCondition + categoryCondition
+        }
     }
 
     fun BindToDelegates()
@@ -56,13 +63,6 @@ class BoardViewModel (val boardView : BoardFragment) : ViewModel()
     suspend fun GetDoneList() : MutableList<Task>
     {
         return GetTaskList(boardView.resources.getString(R.string.getAllDoneTasks) + GetGroupByConditions())
-    }
-
-    fun GetGroupByConditions() : String
-    {
-        val userCondition = if (groupByUser != null) "&id_u=" + groupByUser?.id_u.toString() else ""
-        val categoryCondition = if (groupByCategory != null) "&category=$groupByCategory" else ""
-        return userCondition + categoryCondition
     }
 
     suspend fun GetTaskList(url: String) : MutableList<Task>

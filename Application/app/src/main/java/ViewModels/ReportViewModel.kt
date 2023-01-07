@@ -1,25 +1,48 @@
 package ViewModels
 
-import Models.ReportFieldReferences
+import Models.ReportRepository
+import Models.Task
 import Views.ReportFragment
+import Views.TasksReportData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 
 class ReportViewModel(val reportView : ReportFragment): ViewModel()
 {
+    val reportRepository = ReportRepository()
+
     init
     {
-        reportView.onGetAllReferences += ::FillAllReportFields
+        GetAndUpdateTasksData()
     }
 
-    override fun onCleared()
+    private fun GetAndUpdateTasksData()
     {
-        super.onCleared()
-        reportView.onGetAllReferences -= :: FillAllReportFields
-    }
+        viewModelScope.launch {
+            var conditions = BoardViewModel.GetGroupByConditions()
+            conditions = if (conditions.isNotEmpty()) '?' + conditions.substring(1) else conditions
 
-    private fun FillAllReportFields(reportFieldReferences: ReportFieldReferences)
-    {
-        // TO DO: get from DB for a given user: all completed tasks,
-        // all in progress tasks, all to do task, total estimated time, total real time
+            val tasks = Json.decodeFromString<MutableList<Task>>(reportRepository.GetTasks(conditions))
+
+            val tasksReportData = TasksReportData()
+
+            for (task in tasks)
+            {
+                tasksReportData.estimatedTimeSum += task.estimatedTime
+                tasksReportData.realTimeSum += task.realTime
+
+                when (task.status)
+                {
+                    "To do" -> tasksReportData.toDoCount++
+                    "In progress" -> tasksReportData.inProgressCount++
+                    "Done" -> tasksReportData.doneCount++
+                }
+            }
+
+            reportView.UpdateTasksReportData(tasksReportData)
+        }
     }
 }
