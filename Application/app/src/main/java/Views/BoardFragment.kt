@@ -1,12 +1,15 @@
 package Views
 
+import DragListener
 import ViewModels.BoardViewModel
 import android.os.Bundle
 import android.view.*
+import android.widget.HorizontalScrollView
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.myapplication.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+
 
 class BoardFragment : Fragment() {
     private var boardViewModel = BoardViewModel(this);
@@ -28,6 +31,11 @@ class BoardFragment : Fragment() {
         view.findViewById<FloatingActionButton>(R.id.addTask).setOnClickListener {
             Navigation.findNavController(requireView()).navigate(R.id.action_board_to_createTask)
         }
+
+        val horizontalScrollView =
+            view.findViewById(R.id.horizontal_scroll_view) as HorizontalScrollView
+
+        DragListener.GetInstance()!!.SetScrollView(horizontalScrollView)
     }
 
     private fun InitTables(){

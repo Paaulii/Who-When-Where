@@ -3,6 +3,8 @@ package Models
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import java.net.HttpURLConnection
 import java.net.URL
 
@@ -12,6 +14,7 @@ class CreateTaskRepository
     val getUsersURLString = "https://io.kamil.top:20420/users"
     val getAllTaskURLString = "https://io.kamil.top:20420/tasks"
     val getAllExceptOneTaskURLString = "https://io.kamil.top:20420/tasks?drop="
+    val getTaskURLString = "https://io.kamil.top:20420/tasks?id="
 
     suspend fun CreateTaskRequest(jsonBody: String)
     {
@@ -114,12 +117,29 @@ class CreateTaskRepository
         }
     }
 
-    suspend fun GetTask(taskID: Int) : Task
+    suspend fun GetTask(taskID: Int) : Task?
     {
-        return withContext(Dispatchers.IO)
-        {
-            // TODO Implement proper getter task from server
-            Task(-1, "Edited task", "Some other description", "Category-5", "Done", 5.0f, 1.0f, 2, null)
-        }
+            return withContext(Dispatchers.IO)
+            {
+                val url = URL(getTaskURLString + taskID)
+                val con = url.openConnection() as HttpURLConnection
+
+                con.setRequestProperty("Content-Type", "application/json")
+
+                var task : Task? = null
+
+                con.inputStream.bufferedReader().use {
+                    try {
+                        val ret = it.readText()
+                        task = Json.decodeFromString<Task>(ret)
+                    } catch (e: Exception)
+                    {
+                        Log.d("NETWORK-ERROR", e.message!!)
+                    }
+                }
+
+                task
+                //Task(-1, "Edited task", "Some other description", "Category-5", "Done", 5.0f, 1.0f, 2, 25)
+            }
     }
 }

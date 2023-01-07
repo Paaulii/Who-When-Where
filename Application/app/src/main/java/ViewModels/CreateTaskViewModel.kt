@@ -29,22 +29,28 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
         createTaskView.onGetAllReferences += ::HandleTaskCreationView
         createTaskView.onTaskCreate += ::CreateTask
         createTaskView.onTaskEdited += ::EditTask
-    }
-
-    fun TryGetTask(taskID: Int)
-    {
-        viewModelScope.launch {
-            val task = createTaskRepository.GetTask(taskID)
-            createTaskView.InitTaskInformation(task)
-        }
+        createTaskView.onEnterTaskEditMode += ::TryGetTask
     }
 
     override fun onCleared()
     {
         super.onCleared()
-        if (createTaskView != null){
-            createTaskView.onGetAllReferences -= ::HandleTaskCreationView
-            createTaskView.onTaskCreate -= ::CreateTask
+
+        createTaskView.onGetAllReferences -= ::HandleTaskCreationView
+        createTaskView.onTaskCreate -= ::CreateTask
+        createTaskView.onTaskEdited -= ::EditTask
+        createTaskView.onEnterTaskEditMode -= ::TryGetTask
+    }
+
+    fun TryGetTask(taskID: Int)
+    {
+        viewModelScope.launch {
+            val task : Task? = createTaskRepository.GetTask(taskID)
+
+            if (task != null)
+            {
+                createTaskView.InitTaskInformation(task)
+            }
         }
     }
 
@@ -76,6 +82,7 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
         viewModelScope.launch(Dispatchers.IO){
             users = Json.decodeFromString<MutableList<User>>(createTaskRepository.GetUsers())
             Log.d("TASK ",createTaskRepository.GetUsers().toString())
+
             // Updating view must be called on a main thread
             val handler = android.os.Handler(Looper.getMainLooper())
             handler.post {
@@ -106,9 +113,6 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
             {
                 tasks = Json.decodeFromString<MutableList<Task>>(createTaskRepository.GetAllTaskExcept(taskID))
             }
-
-            //tasks.add(Task("Task1","Desc","cat","To do",1.0f,2.0f,1, null))
-            //tasks.add(Task("Task2","Desc1","cat1","In progress",1.0f,1.0f,1, null))
 
             val handler = android.os.Handler(Looper.getMainLooper())
             handler.post {

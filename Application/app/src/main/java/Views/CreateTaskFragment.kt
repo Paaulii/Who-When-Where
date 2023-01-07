@@ -23,6 +23,7 @@ class CreateTaskFragment : Fragment() {
     var onTaskCreate = EventOneParam<Task>()
     var onTaskEdited = EventOneParam<Task>()
     var onGetAllReferences  = EventThreeParam<Spinner, Spinner, Spinner>()
+    var onEnterTaskEditMode = EventOneParam<Int>()
     var taskID : Int? = null
 
 
@@ -87,7 +88,7 @@ class CreateTaskFragment : Fragment() {
         {
             mainTitle.text = "Task Edition"
             OnSaveButtonClickedFun = ::HandleTaskEdit
-            createTaskViewModel.TryGetTask(taskID!!)
+            onEnterTaskEditMode.invoke(taskID!!)
         }
 
         dependencyCheckbox.isChecked = false;
