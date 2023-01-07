@@ -33,5 +33,10 @@
     <string name="Board">Board</string>
     <string name="category">Category</string>
     <string name="no_data_text">No data available, add new task or drag and drop existing one here.</string>
+    <string name="tasks_status_report">Tasks Status Report</string>
+    <string name="zero">0</string>
+    <string name="tasks_time_report">Tasks Time Report</string>
+    <string name="estimated_time">ESTIMATED TIME</string>
+    <string name="real_time">REAL TIME</string>
 
 </resources>
