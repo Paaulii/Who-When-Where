@@ -11,6 +11,7 @@ import java.net.URL
 class CreateTaskRepository
 {
     val createTaskURLstring = "https://io.kamil.top:20420/addtask"
+    val editTaskURLString = "https://io.kamil.top:20420/updatetask"
     val getUsersURLString = "https://io.kamil.top:20420/users"
     val getAllTaskURLString = "https://io.kamil.top:20420/tasks"
     val getAllExceptOneTaskURLString = "https://io.kamil.top:20420/tasks?drop="
@@ -113,7 +114,26 @@ class CreateTaskRepository
     {
         return withContext(Dispatchers.IO)
         {
-            // TODO Do proper implementation
+            val url = URL(editTaskURLString)
+            val con = url.openConnection() as HttpURLConnection
+
+            con.doOutput = true
+            con.requestMethod = "POST"
+            con.setRequestProperty("Content-Type", "application/json")
+
+            con.outputStream.use { os ->
+                val input = jsonBody.toByteArray(charset("utf-8"))
+                os.write(input, 0, input.size)
+            }
+
+            con.inputStream.bufferedReader().use {
+                try {
+                    val ret = it.readText()
+                } catch (e: Exception)
+                {
+                    Log.d("NETWORK-ERROR", e.message!!)
+                }
+            }
         }
     }
 

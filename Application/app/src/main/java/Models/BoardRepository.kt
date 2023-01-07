@@ -8,6 +8,8 @@ import java.net.URL
 
 class BoardRepository
 {
+    val usersURLString = "https://io.kamil.top:20420/users"
+
     suspend fun GetTasks(requestUrl: String) : String{
         return withContext(Dispatchers.IO)
         {
@@ -25,6 +27,29 @@ class BoardRepository
             }
 
             tasks
+        }
+    }
+
+    suspend fun GetAllUsers() : String
+    {
+        return withContext(Dispatchers.IO)
+        {
+            val url = URL(usersURLString)
+            val con = url.openConnection() as HttpURLConnection
+
+            con.setRequestProperty("Content-Type", "application/json")
+
+            var usersJson = ""
+            con.inputStream.bufferedReader().use {
+                try {
+                    usersJson = it.readText()
+                } catch (e: Exception)
+                {
+                    Log.d("NETWORK-ERROR", e.message!!)
+                }
+            }
+
+            usersJson
         }
     }
 }

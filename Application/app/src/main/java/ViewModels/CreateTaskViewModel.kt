@@ -68,7 +68,7 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
         viewModelScope.launch {
             val jsonTask = Json.encodeToString(task)
             Log.d("TASK", jsonTask)
-            createTaskRepository.CreateTaskRequest(jsonTask)
+            createTaskRepository.EditTaskRequest(jsonTask)
         }
     }
     

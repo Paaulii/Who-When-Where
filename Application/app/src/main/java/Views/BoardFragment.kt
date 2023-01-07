@@ -1,6 +1,7 @@
 package Views
 
 import DragListener
+import Utils.EventOneParam
 import ViewModels.BoardViewModel
 import android.os.Bundle
 import android.view.*
@@ -10,12 +11,13 @@ import androidx.navigation.Navigation
 import com.example.myapplication.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-
 class BoardFragment : Fragment() {
-    private var boardViewModel = BoardViewModel(this);
+    private var boardViewModel = BoardViewModel(this)
+    val OnMenuItemSelected = EventOneParam<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        boardViewModel.BindToDelegates()
         setHasOptionsMenu(true)
     }
 
@@ -27,7 +29,7 @@ class BoardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        InitTables()
+        UpdateTables()
         view.findViewById<FloatingActionButton>(R.id.addTask).setOnClickListener {
             Navigation.findNavController(requireView()).navigate(R.id.action_board_to_createTask)
         }
@@ -38,12 +40,12 @@ class BoardFragment : Fragment() {
         DragListener.GetInstance()!!.SetScrollView(horizontalScrollView)
     }
 
-    private fun InitTables(){
+    fun UpdateTables(){
         childFragmentManager
             .beginTransaction()
-            .add(R.id.toDoTableFragment, TableFragment.NewInstance("TO DO", boardViewModel::GetToDoList))
-            .add(R.id.inProgressTableFragment, TableFragment.NewInstance("IN PROGRESS",boardViewModel::GetInProgressList))
-            .add(R.id.doneTableFragment, TableFragment.NewInstance("DONE", boardViewModel::GetDoneList))
+            .replace(R.id.toDoTableFragment, TableFragment.NewInstance("TO DO", boardViewModel::GetToDoList))
+            .replace(R.id.inProgressTableFragment, TableFragment.NewInstance("IN PROGRESS",boardViewModel::GetInProgressList))
+            .replace(R.id.doneTableFragment, TableFragment.NewInstance("DONE", boardViewModel::GetDoneList))
             .commit()
     }
 
@@ -52,16 +54,7 @@ class BoardFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.menu_Logout -> {
-                Navigation.findNavController(requireView()).navigate(R.id.action_board_to_login)
-                true
-            }
-            R.id.menu_Report -> {
-                Navigation.findNavController(requireView()).navigate(R.id.action_board_to_report)
-                true
-            }
-        else -> super.onOptionsItemSelected(item)
-        }
+        OnMenuItemSelected.invoke(item.itemId)
+        return true
     }
 }

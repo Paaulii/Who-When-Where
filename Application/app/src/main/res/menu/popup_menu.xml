@@ -5,9 +5,13 @@
             android:title="@string/GroupByUser"/>
         <item android:id="@+id/menu_GroupByCategory"
             android:title="@string/GroupByCategory"/>
+        <item android:id="@+id/menu_ResetGrouping"
+            android:title="@string/ResetGrouping"/>
     </group>
     <item android:id="@+id/menu_Report"
         android:title="@string/Report"/>
+    <item android:id="@+id/menu_ReloadTasks"
+        android:title="@string/ReloadTasks"/>
     <item android:id="@+id/menu_Logout"
         android:title="@string/Logout"/>
 </menu>

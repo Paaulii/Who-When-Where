@@ -15,6 +15,8 @@
     <string name="floatingButton">AddButton</string>
     <string name="GroupByUser">Group By User</string>
     <string name="GroupByCategory">Group By Category</string>
+    <string name="ResetGrouping">Reset Grouping</string>
+    <string name="ReloadTasks">Reload Tasks</string>
     <string name="Logout">Logout</string>
     <string name="task_creation_title">Title</string>
     <string name="task_creation_description">Description</string>
