@@ -38,6 +38,7 @@ class TableFragment : Fragment() {
 
         view.findViewById<TextView>(R.id.headerText).text = header
         recyclerView = view.findViewById(R.id.recyclerView)
+        recyclerView.tag = header!!.capitalize()
         onGetAllReferences.invoke()
     }
 

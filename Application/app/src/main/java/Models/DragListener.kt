@@ -1,6 +1,5 @@
 import Models.Task
 import Models.TaskItemAdapter
-import android.annotation.SuppressLint
 import android.graphics.Point
 import android.graphics.Rect
 import android.view.DragEvent
@@ -108,39 +107,22 @@ class DragListener   : View.OnDragListener {
         }
 
         DragEvent.ACTION_DROP -> {
-        var positionTarget = -1
         val viewSource = event.localState as View?
 
         val target: RecyclerView = v.parent as RecyclerView
-        positionTarget = v.tag as Int
 
         if (viewSource != null)
         {
             val source = viewSource.parent as RecyclerView
             val adapterSource = source.adapter as TaskItemAdapter?
             val positionSource = viewSource.tag as Int
-
-            val list: Task? = adapterSource?.getList()?.get(positionSource)
-            val listSource = adapterSource?.getList()?.apply {
-                removeAt(positionSource)
-            }
-
-            listSource?.let { adapterSource.updateList(it) }
-            adapterSource?.notifyDataSetChanged()
+            val task: Task? = adapterSource?.getList()?.get(positionSource)
 
             val adapterTarget = target.adapter as TaskItemAdapter?
-            val targetList = adapterTarget?.getList()
+            val adapterState: String = target.tag as String
 
-            if (positionTarget >= 0)
-            {
-                list?.let { targetList?.add(positionTarget, it) }
-            } else
-            {
-                list?.let { targetList?.add(it) }
-            }
-
-            targetList?.let { adapterTarget.updateList(it) }
-            adapterTarget?.notifyDataSetChanged()
+            adapterTarget!!.onChangeTaskState.invoke(task!!, adapterState, true)
+            adapterSource.onChangeTaskState.invoke(task, adapterState, false)
         }
     } }
     return true
