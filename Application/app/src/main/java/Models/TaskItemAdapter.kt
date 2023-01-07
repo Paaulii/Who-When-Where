@@ -11,6 +11,8 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
+import java.lang.Thread.sleep
+import kotlin.concurrent.thread
 
 
 class TaskItemAdapter (private var tasks: MutableList<Task>) : RecyclerView.Adapter<TaskItemAdapter.ViewHolder>(), View.OnTouchListener {
@@ -59,9 +61,12 @@ class TaskItemAdapter (private var tasks: MutableList<Task>) : RecyclerView.Adap
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
         when (event?.action) {
             MotionEvent.ACTION_DOWN -> {
-                val data = ClipData.newPlainText("", "")
-                val shadowBuilder = View.DragShadowBuilder(v)
-                v?.startDragAndDrop(data, shadowBuilder, v, 0)
+                thread {
+                    sleep(500)
+                    val data = ClipData.newPlainText("", "")
+                    val shadowBuilder = View.DragShadowBuilder(v)
+                    v?.startDragAndDrop(data, shadowBuilder, v, 0)
+                }
                 return true
             }
         }
