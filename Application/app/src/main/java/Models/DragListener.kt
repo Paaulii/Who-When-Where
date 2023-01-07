@@ -50,12 +50,12 @@ class DragListener   : View.OnDragListener {
 
     fun CheckIfAutoSwipeIsPossible(touchPosition: Point, scrollViewWidth: Int) : Boolean
     {
-        if ((touchPosition!!.x >= scrollViewWidth - 70) && touchPosition!!.x > lastXPos)
+        if ((touchPosition!!.x >= scrollViewWidth - 200) && touchPosition!!.x > lastXPos)
         {
             return true
         }
 
-        if ((touchPosition.x <= 5) && touchPosition!!.x < lastXPos)
+        if ((touchPosition.x <= 200) && touchPosition!!.x < lastXPos)
         {
             return true
         }
@@ -77,11 +77,11 @@ class DragListener   : View.OnDragListener {
             if (CheckIfAutoSwipeIsPossible(touchPosition!!, scrollViewWidth) && (!startAutoScroll))
             {
                 startAutoScroll = true
-                scrollRight = (touchPosition!!.x >= scrollViewWidth - 70)
+                scrollRight = (touchPosition!!.x >= scrollViewWidth - 200)
 
                     thread {
                         sleep(1000L)
-                        if ((touchPosition!!.x >= scrollViewWidth - 70) || (touchPosition.x <= 5) )
+                        if (touchPosition!!.x >= scrollViewWidth - 200 || (touchPosition.x <= 200) )
                         {
                             if (scrollRight)
                             {
