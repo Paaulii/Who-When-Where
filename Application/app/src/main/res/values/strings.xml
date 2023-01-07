@@ -30,5 +30,6 @@
     <string name="totalRealTime">Total real time:  </string>
     <string name="Board">Board</string>
     <string name="category">Category</string>
+    <string name="no_data_text">No data available, add new task or drag and drop existing one here.</string>
 
 </resources>

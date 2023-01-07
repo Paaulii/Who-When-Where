@@ -5,8 +5,10 @@ import android.graphics.Rect
 import android.view.DragEvent
 import android.view.View
 import android.widget.HorizontalScrollView
+import android.widget.LinearLayout
 import androidx.core.math.MathUtils.clamp
 import androidx.recyclerview.widget.RecyclerView
+import org.w3c.dom.Text
 import java.lang.Thread.sleep
 import kotlin.concurrent.thread
 
@@ -109,20 +111,34 @@ class DragListener   : View.OnDragListener {
         DragEvent.ACTION_DROP -> {
         val viewSource = event.localState as View?
 
-        val target: RecyclerView = v.parent as RecyclerView
+        var target : RecyclerView? = v.parent as? RecyclerView
 
         if (viewSource != null)
         {
             val source = viewSource.parent as RecyclerView
             val adapterSource = source.adapter as TaskItemAdapter?
             val positionSource = viewSource.tag as Int
-            val task: Task? = adapterSource?.getList()?.get(positionSource)
+            val task: Task = adapterSource?.getList()!![positionSource]
 
-            val adapterTarget = target.adapter as TaskItemAdapter?
-            val adapterState: String = target.tag as String
+            if (target == null)
+            {
+                val linearLayout = v.parent as LinearLayout
+                val count = linearLayout.getChildCount();
 
+                for (i in 1 until count)
+                {
+                    target = linearLayout.getChildAt(i) as? RecyclerView;
+                    if (target != null)
+                    {
+                        break
+                    }
+                }
+            }
+
+            val adapterTarget = target!!.adapter as TaskItemAdapter?
+            val adapterState: String = target!!.tag as String
             adapterTarget!!.onChangeTaskState.invoke(task!!, adapterState, true)
-            adapterSource.onChangeTaskState.invoke(task, adapterState, false)
+            adapterSource!!.onChangeTaskState.invoke(task, adapterState, false)
         }
     } }
     return true
