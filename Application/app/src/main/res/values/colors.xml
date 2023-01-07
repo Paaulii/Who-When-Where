@@ -13,4 +13,6 @@
     <color name="toDo_Color">#E1DD8E</color>
     <color name="inProgress_Color">#4EAAC2</color>
     <color name="done_Color">#85E682</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="gray">#BDBDBD</color>
 </resources>
