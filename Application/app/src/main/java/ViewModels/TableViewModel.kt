@@ -1,5 +1,6 @@
 package ViewModels
 
+import Models.TableRepository
 import Models.Task
 import Models.TaskItemAdapter
 import Views.TableFragment
@@ -14,11 +15,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 class TableViewModel(val tableView: TableFragment) : ViewModel()
 {
     private lateinit var adapter : TaskItemAdapter
     private lateinit var getTaskList :  suspend (() -> MutableList<Task>)
+    private var tableRepository = TableRepository()
 
     init
     {
@@ -45,15 +50,8 @@ class TableViewModel(val tableView: TableFragment) : ViewModel()
 
     fun DetachFromEvents()
     {
-        if (adapter != null)
-        {
-            adapter.onButtonClicked -= ::GetTaskDetails
-        }
-
-        if (tableView != null)
-        {
-            tableView.onGetAllReferences -= :: InitTableViewComponents
-        }
+        adapter.onButtonClicked -= ::GetTaskDetails
+        tableView.onGetAllReferences -= :: InitTableViewComponents
     }
 
     fun InitTableViewComponents()
@@ -68,7 +66,7 @@ class TableViewModel(val tableView: TableFragment) : ViewModel()
 
             adapter = TaskItemAdapter(taskList)
             adapter.onButtonClicked += ::GetTaskDetails
-
+            adapter.onChangeTaskState += ::ChangeTaskState
             tableView.SetAdapter(adapter)
         }
     }
@@ -77,6 +75,27 @@ class TableViewModel(val tableView: TableFragment) : ViewModel()
     {
         val bundle = bundleOf("taskID" to task.id_t)
         Navigation.findNavController(tableView.requireView()).navigate(R.id.action_board_to_createTask, bundle)
-        // TO DO: create a layout for task details and naviation from board fragment to it.
+    }
+
+    private fun ChangeTaskState(task: Task, newState: String, handlesEditTaskRequest: Boolean){
+        viewModelScope.launch(Dispatchers.IO) {
+            if (handlesEditTaskRequest) {
+                val editedTask: Task = Task(
+                    task.id_t,
+                    task.title,
+                    task.description,
+                    task.category,
+                    newState,
+                    task.estimatedTime,
+                    task.realTime,
+                    task.id_u,
+                    task.blockedBy
+                )
+
+                val jsonTask = Json.encodeToString(editedTask)
+                tableRepository.EditTaskRequest(jsonTask)
+            }
+            InitRecycleViewer()
+        }
     }
 }

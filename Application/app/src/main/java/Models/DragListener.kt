@@ -1,13 +1,14 @@
 import Models.Task
 import Models.TaskItemAdapter
-import android.annotation.SuppressLint
 import android.graphics.Point
 import android.graphics.Rect
 import android.view.DragEvent
 import android.view.View
 import android.widget.HorizontalScrollView
+import android.widget.LinearLayout
 import androidx.core.math.MathUtils.clamp
 import androidx.recyclerview.widget.RecyclerView
+import org.w3c.dom.Text
 import java.lang.Thread.sleep
 import kotlin.concurrent.thread
 
@@ -108,39 +109,36 @@ class DragListener   : View.OnDragListener {
         }
 
         DragEvent.ACTION_DROP -> {
-        var positionTarget = -1
         val viewSource = event.localState as View?
 
-        val target: RecyclerView = v.parent as RecyclerView
-        positionTarget = v.tag as Int
+        var target : RecyclerView? = v.parent as? RecyclerView
 
         if (viewSource != null)
         {
             val source = viewSource.parent as RecyclerView
             val adapterSource = source.adapter as TaskItemAdapter?
             val positionSource = viewSource.tag as Int
+            val task: Task = adapterSource?.getList()!![positionSource]
 
-            val list: Task? = adapterSource?.getList()?.get(positionSource)
-            val listSource = adapterSource?.getList()?.apply {
-                removeAt(positionSource)
+            if (target == null)
+            {
+                val linearLayout = v.parent as LinearLayout
+                val count = linearLayout.getChildCount();
+
+                for (i in 1 until count)
+                {
+                    target = linearLayout.getChildAt(i) as? RecyclerView;
+                    if (target != null)
+                    {
+                        break
+                    }
+                }
             }
 
-            listSource?.let { adapterSource.updateList(it) }
-            adapterSource?.notifyDataSetChanged()
-
-            val adapterTarget = target.adapter as TaskItemAdapter?
-            val targetList = adapterTarget?.getList()
-
-            if (positionTarget >= 0)
-            {
-                list?.let { targetList?.add(positionTarget, it) }
-            } else
-            {
-                list?.let { targetList?.add(it) }
-            }
-
-            targetList?.let { adapterTarget.updateList(it) }
-            adapterTarget?.notifyDataSetChanged()
+            val adapterTarget = target!!.adapter as TaskItemAdapter?
+            val adapterState: String = target!!.tag as String
+            adapterTarget!!.onChangeTaskState.invoke(task!!, adapterState, true)
+            adapterSource!!.onChangeTaskState.invoke(task, adapterState, false)
         }
     } }
     return true

@@ -1,16 +1,19 @@
 package Views
 
+import DragListener
 import Models.Task
 import Models.TaskItemAdapter
 import Utils.EventOneParam
 import Utils.EventZeroParam
-import ViewModels.BoardViewModel
 import ViewModels.TableViewModel
 import android.app.Activity
+import android.opengl.Visibility
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +29,7 @@ class TableFragment : Fragment() {
     lateinit var recyclerView: RecyclerView
 
     private var tableViewModel = TableViewModel(this);
+    private lateinit var noDataText : TextView
     private var header: String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -37,7 +41,10 @@ class TableFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<TextView>(R.id.headerText).text = header
+        noDataText = view.findViewById(R.id.no_data_text)
+        noDataText.setOnDragListener(DragListener.GetInstance())
         recyclerView = view.findViewById(R.id.recyclerView)
+        recyclerView.tag = header!!.capitalize()
         onGetAllReferences.invoke()
     }
 
@@ -49,11 +56,26 @@ class TableFragment : Fragment() {
         }
     }
 
+    fun SetEmptyView(){
+        val adapter = recyclerView.adapter as TaskItemAdapter
+        val tasks = adapter.getList()
+
+        if (tasks.isEmpty()){
+            noDataText.visibility = VISIBLE
+            recyclerView.visibility = GONE
+        }
+        else
+        {
+            noDataText.visibility = GONE
+            recyclerView.visibility = VISIBLE
+        }
+    }
     fun SetAdapter(adapter: TaskItemAdapter)
     {
         (context as Activity).runOnUiThread {
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
+            SetEmptyView()
         }
     }
 

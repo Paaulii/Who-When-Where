@@ -2,10 +2,12 @@ package Models
 
 import DragListener
 import Utils.EventOneParam
+import Utils.EventThreeParam
+import Utils.EventTwoParam
 import android.content.ClipData
 import android.view.*
 import android.widget.Button
-import android.widget.CheckBox
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
@@ -14,8 +16,10 @@ import com.example.myapplication.R
 class TaskItemAdapter (private var tasks: MutableList<Task>) : RecyclerView.Adapter<TaskItemAdapter.ViewHolder>(), View.OnTouchListener {
 
     var onButtonClicked = EventOneParam<Task>()
+    var onChangeTaskState = EventThreeParam<Task, String, Boolean>()
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val taskCheckbox = itemView.findViewById<CheckBox>(R.id.taskCheckbox)
+        val taskText = itemView.findViewById<TextView>(R.id.taskText)
         val detailsBtn = itemView.findViewById<Button>(R.id.detailsBtn)
         val constraintLayout = itemView.findViewById<ConstraintLayout>(R.id.constraint_layout_item)
     }
@@ -29,7 +33,7 @@ class TaskItemAdapter (private var tasks: MutableList<Task>) : RecyclerView.Adap
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val task : Task = tasks.get(position)
-        val taskCheckboxHolder = holder.taskCheckbox
+        val taskCheckboxHolder = holder.taskText
         holder.constraintLayout?.tag = position
         holder.constraintLayout?.setOnTouchListener(this)
         holder.constraintLayout?.setOnDragListener(DragListener.GetInstance())
