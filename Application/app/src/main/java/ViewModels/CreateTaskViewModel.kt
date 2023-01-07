@@ -124,6 +124,11 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
                 taskSpinner.adapter = adapter
             }
 
+            HandleOnSetTaskSpinner()
         }
+    }
+
+    private fun HandleOnSetTaskSpinner(){
+        createTaskView.PrepareEditTaskInformation(createTaskView.requireView())
     }
 }

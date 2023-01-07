@@ -81,6 +81,11 @@ class CreateTaskFragment : Fragment() {
             }
         }
 
+        dependencyCheckbox.isChecked = false;
+        onGetAllReferences.invoke(userSpinner, taskStateSpinner, tasksSpinner)
+    }
+
+    fun PrepareEditTaskInformation(view: View){
         taskID = arguments?.getInt("taskID")
         val mainTitle = view.findViewById<TextView>(R.id.mainTitle)
 
@@ -91,8 +96,6 @@ class CreateTaskFragment : Fragment() {
             onEnterTaskEditMode.invoke(taskID!!)
         }
 
-        dependencyCheckbox.isChecked = false;
-        onGetAllReferences.invoke(userSpinner, taskStateSpinner, tasksSpinner)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -108,7 +111,32 @@ class CreateTaskFragment : Fragment() {
         description.setText(task.description)
         estimatedTime.setText(task.estimatedTime.toString())
         realTime.setText(task.realTime.toString())
-        // TODO: add dependency when task will have a proper field in itself
+
+        val hasDependency : Boolean = task.blockedBy != null
+        dependencyCheckbox.isChecked = hasDependency;
+
+        if (hasDependency) {
+            val position: Int = GetTaskPositionInSpinner(task.blockedBy!!)
+
+            if (position != -1) {
+                tasksSpinner.setSelection(position)
+            }
+        }
+    }
+
+    private fun GetTaskPositionInSpinner(taskID : Int) : Int
+    {
+        val adapter : Adapter = tasksSpinner.adapter;
+        for (i in 1 until  adapter.getCount())
+        {
+            val task: Task = adapter.getItem(i) as Task
+            if (task.id_t == taskID)
+            {
+                return i
+            }
+        }
+
+        return -1
     }
 
     private fun HandleTaskCreation()
