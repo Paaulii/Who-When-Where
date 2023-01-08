@@ -82,7 +82,6 @@ class TaskItemAdapter (private var tasks: MutableList<Task>) : RecyclerView.Adap
         if (task.blockedBy != null){
             holder.linearLayout.alpha = blockedTaskAlphaValue
             holder.constraintLayout?.setOnTouchListener(null)
-            holder.constraintLayout?.setOnDragListener(null)
         }
     }
 }
