@@ -6,21 +6,27 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
+        android:layout_marginTop="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="70dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/task_background">
 
         <TextView
+            android:paddingLeft="10dp"
             android:id="@+id/taskText"
             android:layout_width="280dp"
             android:layout_height="match_parent"
             android:gravity="left|center"
             android:text="Task"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:fontFamily="@font/nexa_book"/>
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
@@ -34,8 +40,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:background="@color/transparent"
-                android:text="Details" />
+                android:background="@color/button_color"
+                android:textColor="@color/white"
+                android:text="Details"
+                android:fontFamily="@font/proxima"/>
 
         </androidx.cardview.widget.CardView>
 

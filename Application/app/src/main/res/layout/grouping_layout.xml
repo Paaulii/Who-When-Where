@@ -11,10 +11,13 @@
         android:paddingHorizontal="20dp">
 
         <TextView
+            android:paddingBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="User"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/nexa_book"/>
 
         <Spinner
             android:id="@+id/group_Spinner"

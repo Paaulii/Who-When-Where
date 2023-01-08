@@ -16,4 +16,5 @@
     <color name="transparent">#00FFFFFF</color>
     <color name="gray">#BDBDBD</color>
     <color name="deleteButton">#FFFF6767</color>
+    <color name="button_color">#72935A</color>
 </resources>

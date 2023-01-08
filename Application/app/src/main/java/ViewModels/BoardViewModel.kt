@@ -126,7 +126,7 @@ class BoardViewModel (val boardView : BoardFragment) : ViewModel()
             val sp = viewInflated.findViewById<Spinner>(R.id.group_Spinner)
             sp.adapter = ArrayAdapter(
                 boardView.requireContext(),
-                android.R.layout.simple_spinner_item,
+                R.layout.custom_spinner,
                 groupByList
             )
             builder.setView(viewInflated)

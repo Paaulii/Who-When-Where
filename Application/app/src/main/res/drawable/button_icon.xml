@@ -9,8 +9,8 @@
 
             <gradient
                 android:angle="45"
-                android:endColor="#D425B5"
-                android:startColor="#EBF928" />
+                android:endColor="#8BC34A"
+                android:startColor="#2A3E2B"  />
         </shape>
     </item>
     <item
@@ -20,6 +20,6 @@
         android:top="5dp">
         <bitmap
             android:gravity="center"
-            android:src="@drawable/ico_plus" />
+            android:src="@drawable/ic_plus" />
     </item>
 </layer-list>
