@@ -16,6 +16,7 @@ class CreateTaskRepository
     val getAllTaskURLString = "https://io.kamil.top:20420/tasks"
     val getAllExceptOneTaskURLString = "https://io.kamil.top:20420/tasks?drop="
     val getTaskURLString = "https://io.kamil.top:20420/tasks?id="
+    val deleteTaskURLString = "https://io.kamil.top:20420/deletetask"
 
     suspend fun CreateTaskRequest(jsonBody: String)
     {
@@ -161,5 +162,33 @@ class CreateTaskRepository
                 task
                 //Task(-1, "Edited task", "Some other description", "Category-5", "Done", 5.0f, 1.0f, 2, 25)
             }
+    }
+
+    suspend fun DeleteTask(jsonBody: String)
+    {
+        return withContext(Dispatchers.IO)
+        {
+            val url = URL(deleteTaskURLString)
+            val con = url.openConnection() as HttpURLConnection
+
+            con.doOutput = true
+            con.requestMethod = "POST"
+            con.setRequestProperty("Content-Type", "application/json")
+
+            con.outputStream.use { os ->
+                val input = jsonBody.toByteArray(charset("utf-8"))
+                os.write(input, 0, input.size)
+            }
+
+            con.inputStream.bufferedReader().use {
+                try {
+                    val ret = it.readText()
+                } catch (e: Exception)
+                {
+                    Log.d("NETWORK-ERROR", e.message!!)
+                }
+            }
+
+        }
     }
 }

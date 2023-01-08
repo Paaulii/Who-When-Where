@@ -2,18 +2,19 @@ package Views
 
 
 import Models.Task
-import Models.TaskState
 import Models.User
 import Utils.EventOneParam
 import Utils.EventThreeParam
 import ViewModels.CreateTaskViewModel
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.*
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.myapplication.R
@@ -24,7 +25,8 @@ class CreateTaskFragment : Fragment() {
     var onTaskEdited = EventOneParam<Task>()
     var onGetAllReferences  = EventThreeParam<Spinner, Spinner, Spinner>()
     var onEnterTaskEditMode = EventOneParam<Int>()
-    var taskID : Int? = null
+    var onDeleteButtonClicked = EventOneParam<Int>()
+    var editTaskID : Int? = null
 
 
     private lateinit var userSpinner : Spinner
@@ -37,6 +39,8 @@ class CreateTaskFragment : Fragment() {
     private lateinit var dependencyCheckbox: CheckBox
     private lateinit var causerText : TextView
     private lateinit var tasksSpinner: Spinner
+    private lateinit var deleteButton: Button
+    private lateinit var deleteButtonBackground: CardView
 
     private var createTaskViewModel  = CreateTaskViewModel(this)
 
@@ -60,9 +64,18 @@ class CreateTaskFragment : Fragment() {
         dependencyCheckbox = view.findViewById(R.id.dependencyCheckbox)
         causerText = view.findViewById(R.id.causerText)
         tasksSpinner = view.findViewById(R.id.tasks_spinner)
+        deleteButton = view.findViewById(R.id.btnDelTask)
+        deleteButtonBackground = view.findViewById(R.id.delTaskBackground)
+
+        deleteButton.setOnClickListener {
+            if (editTaskID != null && editTaskID != -1)
+            {
+                onDeleteButtonClicked.invoke(editTaskID!!)
+            }
+        }
 
         view.findViewById<Button>(R.id.btnBack).setOnClickListener {
-            Navigation.findNavController(requireView()).navigate(R.id.action_createTask_to_board)
+            TravelToBoard()
         }
 
         view.findViewById<Button>(R.id.btnSaveTask).setOnClickListener{
@@ -86,14 +99,19 @@ class CreateTaskFragment : Fragment() {
     }
 
     fun PrepareEditTaskInformation(view: View){
-        taskID = arguments?.getInt("taskID")
+        editTaskID = arguments?.getInt("taskID")
         val mainTitle = view.findViewById<TextView>(R.id.mainTitle)
 
-        if (taskID != null && taskID != -1)
+        if (editTaskID != null && editTaskID != -1)
         {
             mainTitle.text = "Task Edition"
             OnSaveButtonClickedFun = ::HandleTaskEdit
-            onEnterTaskEditMode.invoke(taskID!!)
+            onEnterTaskEditMode.invoke(editTaskID!!)
+        }
+        else
+        {
+            deleteButton.alpha = 0.3f
+            deleteButtonBackground.alpha = 0.3f
         }
 
     }
@@ -124,6 +142,11 @@ class CreateTaskFragment : Fragment() {
         }
     }
 
+    fun TravelToBoard()
+    {
+        Navigation.findNavController(requireView()).navigate(R.id.action_createTask_to_board)
+    }
+
     private fun GetTaskPositionInSpinner(taskID : Int) : Int
     {
         val adapter : Adapter = tasksSpinner.adapter;
@@ -146,7 +169,7 @@ class CreateTaskFragment : Fragment() {
             val newTask = GenerateTaskObject()
             onTaskCreate.invoke(newTask)
 
-            Navigation.findNavController(requireView()).navigate(R.id.action_createTask_to_board)
+            TravelToBoard()
         }
         else
         {
@@ -166,7 +189,7 @@ class CreateTaskFragment : Fragment() {
 
             onTaskEdited.invoke(newTask)
 
-            Navigation.findNavController(requireView()).navigate(R.id.action_createTask_to_board)
+            TravelToBoard()
         }
         else
         {

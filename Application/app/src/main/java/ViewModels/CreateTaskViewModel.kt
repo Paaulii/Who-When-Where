@@ -30,6 +30,7 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
         createTaskView.onTaskCreate += ::CreateTask
         createTaskView.onTaskEdited += ::EditTask
         createTaskView.onEnterTaskEditMode += ::TryGetTask
+        createTaskView.onDeleteButtonClicked += ::DeleteTask
     }
 
     override fun onCleared()
@@ -40,6 +41,16 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
         createTaskView.onTaskCreate -= ::CreateTask
         createTaskView.onTaskEdited -= ::EditTask
         createTaskView.onEnterTaskEditMode -= ::TryGetTask
+    }
+
+    fun DeleteTask(taskID: Int)
+    {
+        viewModelScope.launch {
+            val jsonBody = "{\"id_t\": ${taskID}}"
+            Log.d("EDIT TASK", "JSON: $jsonBody")
+            createTaskRepository.DeleteTask(jsonBody)
+            createTaskView.TravelToBoard()
+        }
     }
 
     fun TryGetTask(taskID: Int)
@@ -103,7 +114,7 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
 
         viewModelScope.launch(Dispatchers.IO){
 
-            val taskID = createTaskView.taskID
+            val taskID = createTaskView.editTaskID
 
             if ( taskID == null || taskID != -1)
             {

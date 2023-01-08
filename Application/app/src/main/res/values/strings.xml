@@ -38,5 +38,6 @@
     <string name="tasks_time_report">Tasks Time Report</string>
     <string name="estimated_time">ESTIMATED TIME</string>
     <string name="real_time">REAL TIME</string>
+    <string name="delete_task">DELETE TASK</string>
 
 </resources>
