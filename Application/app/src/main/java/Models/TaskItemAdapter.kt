@@ -2,18 +2,20 @@ package Models
 
 import DragListener
 import Utils.EventOneParam
-import Utils.EventThreeParam
 import Utils.EventTwoParam
 import android.content.ClipData
+import android.content.Context
 import android.graphics.Point
 import android.graphics.Rect
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet.Motion
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import kotlinx.coroutines.launch
@@ -22,6 +24,7 @@ import java.lang.Math.abs
 import java.lang.Thread.sleep
 import kotlin.concurrent.thread
 
+
 private const val DONE_STATUS = "Done"
 class TaskItemAdapter (private var tasks: MutableList<Task>) : RecyclerView.Adapter<TaskItemAdapter.ViewHolder>(), View.OnTouchListener {
     var onButtonClicked = EventOneParam<Task>()
@@ -29,6 +32,7 @@ class TaskItemAdapter (private var tasks: MutableList<Task>) : RecyclerView.Adap
 
     private var blockedTaskAlphaValue : Float = 0.4F
     private var taskRepository = TaskItemAdapterRepository()
+    private lateinit var context : Context
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val taskText = itemView.findViewById<TextView>(R.id.taskText)
@@ -38,7 +42,7 @@ class TaskItemAdapter (private var tasks: MutableList<Task>) : RecyclerView.Adap
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val context = parent.context
+        context = parent.context
         val inflater = LayoutInflater.from(context)
         val taskListView = inflater.inflate(R.layout.task_item,parent, false)
         return ViewHolder(taskListView)
@@ -50,7 +54,6 @@ class TaskItemAdapter (private var tasks: MutableList<Task>) : RecyclerView.Adap
         holder.constraintLayout?.tag = position
         holder.constraintLayout?.setOnTouchListener(this)
         holder.constraintLayout?.setOnDragListener(DragListener.GetInstance())
-
         SetDisabledTask(holder, task)
 
         holder.detailsBtn.setOnClickListener {
@@ -80,7 +83,7 @@ class TaskItemAdapter (private var tasks: MutableList<Task>) : RecyclerView.Adap
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
         when (event?.action) {
             MotionEvent.ACTION_DOWN -> {
-                thread {
+               thread {
                     val startTouchPos = GetTouchPositionFromDragEvent(v!!, event)
                     sleep(500)
 
@@ -91,7 +94,6 @@ class TaskItemAdapter (private var tasks: MutableList<Task>) : RecyclerView.Adap
                         val shadowBuilder = View.DragShadowBuilder(v)
                         v?.startDragAndDrop(data, shadowBuilder, v, 0)
                     }
-
                 }
                 return true
             }

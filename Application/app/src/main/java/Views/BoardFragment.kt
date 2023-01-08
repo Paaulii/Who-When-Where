@@ -49,12 +49,12 @@ class BoardFragment : Fragment() {
         inProgressFragment.onContentChanged +=::UpdateTables
         doneFragment.onContentChanged += ::UpdateTables
 
-            childFragmentManager
-            .beginTransaction()
-            .replace(R.id.toDoTableFragment, toDoFragment)
-            .replace(R.id.inProgressTableFragment, inProgressFragment)
-            .replace(R.id.doneTableFragment, doneFragment)
-            .commit()
+        childFragmentManager
+        .beginTransaction()
+        .replace(R.id.toDoTableFragment, toDoFragment)
+        .replace(R.id.inProgressTableFragment, inProgressFragment)
+        .replace(R.id.doneTableFragment, doneFragment)
+        .commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

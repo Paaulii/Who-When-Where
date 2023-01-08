@@ -1,14 +1,17 @@
 import Models.Task
 import Models.TaskItemAdapter
+import android.graphics.Matrix
 import android.graphics.Point
 import android.graphics.Rect
+import android.util.Log
 import android.view.DragEvent
+import android.view.MotionEvent
 import android.view.View
 import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
 import androidx.core.math.MathUtils.clamp
+import androidx.core.view.ViewCompat.getRotation
 import androidx.recyclerview.widget.RecyclerView
-import org.w3c.dom.Text
 import java.lang.Thread.sleep
 import kotlin.concurrent.thread
 
@@ -16,10 +19,17 @@ import kotlin.concurrent.thread
 class DragListener   : View.OnDragListener {
 
     lateinit var horizontalScrollView: HorizontalScrollView
+    lateinit var linearLayout: LinearLayout
     var currentXPos: Int = 0
     var startAutoScroll: Boolean = false
     var scrollRight: Boolean = true
     var lastXPos : Int = 0
+
+    var linearLayoutWidth : Int = 0
+    var scrollViewWidth : Int = 0
+
+    var rightEdge : Float = 0.0f
+    var leftEdge : Float = 0.0f
 
     companion object{
         private var listner: DragListener? = null
@@ -50,12 +60,12 @@ class DragListener   : View.OnDragListener {
 
     fun CheckIfAutoSwipeIsPossible(touchPosition: Point, scrollViewWidth: Int) : Boolean
     {
-        if ((touchPosition!!.x >= scrollViewWidth - 200) && touchPosition!!.x > lastXPos)
+        if ((touchPosition!!.x >= rightEdge) && touchPosition!!.x > lastXPos)
         {
             return true
         }
 
-        if ((touchPosition.x <= 200) && touchPosition!!.x < lastXPos)
+        if ((touchPosition.x <= leftEdge) && touchPosition!!.x < lastXPos)
         {
             return true
         }
@@ -63,25 +73,48 @@ class DragListener   : View.OnDragListener {
         return false
     }
 
-
     override fun onDrag(v: View, event: DragEvent): Boolean {
 
         when (event.action) {
+            DragEvent.ACTION_DRAG_STARTED -> {
+                val scrollView = horizontalScrollView
+                scrollViewWidth = scrollView.width
+                currentXPos = horizontalScrollView.scrollX
+                linearLayout = scrollView.getChildAt(0) as LinearLayout
+                linearLayoutWidth = linearLayout.width
+
+                rightEdge = scrollViewWidth - (scrollViewWidth * 0.2f)
+                leftEdge = scrollViewWidth * 0.2f
+
+                val firstPos = linearLayoutWidth - 3 * linearLayoutWidth/3
+                val secondPos = linearLayoutWidth - 2 * linearLayoutWidth/3
+                val thirdPos = linearLayoutWidth - linearLayoutWidth/3
+
+                if (currentXPos > firstPos && currentXPos < secondPos)
+                {
+                    currentXPos = secondPos
+                }
+                else  if (currentXPos > secondPos && currentXPos < thirdPos)
+                {
+                    currentXPos = thirdPos
+                }
+                else
+                {
+                    currentXPos = firstPos
+                }
+            }
+
             DragEvent.ACTION_DRAG_LOCATION -> {
-            val scrollView = horizontalScrollView
-            val scrollViewWidth = scrollView.width
-            val linearLayout = scrollView.getChildAt(0)
-            val linearLayoutWidth = linearLayout.width
-            val touchPosition = GetTouchPositionFromDragEvent(linearLayout, event)
+            val touchPosition = GetTouchPositionFromDragEvent(linearLayout as View, event)
 
             if (CheckIfAutoSwipeIsPossible(touchPosition!!, scrollViewWidth) && (!startAutoScroll))
             {
                 startAutoScroll = true
-                scrollRight = (touchPosition!!.x >= scrollViewWidth - 200)
+                scrollRight = (touchPosition!!.x >= rightEdge)
 
-                    thread {
+                   thread {
                         sleep(1000L)
-                        if (touchPosition!!.x >= scrollViewWidth - 200 || (touchPosition.x <= 200) )
+                        if (touchPosition!!.x >= rightEdge|| (touchPosition.x <= leftEdge) )
                         {
                             if (scrollRight)
                             {
@@ -92,17 +125,15 @@ class DragListener   : View.OnDragListener {
                                 currentXPos = clamp(currentXPos - linearLayoutWidth / 3 ,0, linearLayoutWidth - linearLayoutWidth/3)
                             }
 
-                            scrollView.smoothScrollTo(
+                            horizontalScrollView.smoothScrollTo(
                                 currentXPos,
                                 0
                             )
                         }
 
-                        sleep(1000)
+                        //sleep(1000)
                         startAutoScroll = false
                     }
-
-
             }
 
             lastXPos = touchPosition!!.x
