@@ -13,6 +13,7 @@ import androidx.core.math.MathUtils.clamp
 import androidx.core.view.ViewCompat.getRotation
 import androidx.recyclerview.widget.RecyclerView
 import java.lang.Thread.sleep
+import java.util.Collections.min
 import kotlin.concurrent.thread
 
 
@@ -85,23 +86,6 @@ class DragListener   : View.OnDragListener {
 
                 rightEdge = scrollViewWidth - (scrollViewWidth * 0.2f)
                 leftEdge = scrollViewWidth * 0.2f
-
-                val firstPos = linearLayoutWidth - 3 * linearLayoutWidth/3
-                val secondPos = linearLayoutWidth - 2 * linearLayoutWidth/3
-                val thirdPos = linearLayoutWidth - linearLayoutWidth/3
-
-                if (currentXPos > firstPos && currentXPos < secondPos)
-                {
-                    currentXPos = secondPos
-                }
-                else  if (currentXPos > secondPos && currentXPos < thirdPos)
-                {
-                    currentXPos = thirdPos
-                }
-                else
-                {
-                    currentXPos = firstPos
-                }
             }
 
             DragEvent.ACTION_DRAG_LOCATION -> {

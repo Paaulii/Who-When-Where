@@ -81,6 +81,8 @@ class TaskItemAdapter (private var tasks: MutableList<Task>) : RecyclerView.Adap
     }
 
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+        v!!.parent.requestChildFocus(v,v)
+
         when (event?.action) {
             MotionEvent.ACTION_DOWN -> {
                thread {
