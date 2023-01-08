@@ -41,11 +41,19 @@ class BoardFragment : Fragment() {
     }
 
     fun UpdateTables(){
-        childFragmentManager
+        val toDoFragment = TableFragment.NewInstance("TO DO", boardViewModel::GetToDoList)
+        val inProgressFragment = TableFragment.NewInstance("IN PROGRESS",boardViewModel::GetInProgressList)
+        val doneFragment = TableFragment.NewInstance("DONE", boardViewModel::GetDoneList)
+
+        toDoFragment.onContentChanged += ::UpdateTables
+        inProgressFragment.onContentChanged +=::UpdateTables
+        doneFragment.onContentChanged += ::UpdateTables
+
+            childFragmentManager
             .beginTransaction()
-            .replace(R.id.toDoTableFragment, TableFragment.NewInstance("TO DO", boardViewModel::GetToDoList))
-            .replace(R.id.inProgressTableFragment, TableFragment.NewInstance("IN PROGRESS",boardViewModel::GetInProgressList))
-            .replace(R.id.doneTableFragment, TableFragment.NewInstance("DONE", boardViewModel::GetDoneList))
+            .replace(R.id.toDoTableFragment, toDoFragment)
+            .replace(R.id.inProgressTableFragment, inProgressFragment)
+            .replace(R.id.doneTableFragment, doneFragment)
             .commit()
     }
 

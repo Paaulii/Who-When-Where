@@ -4,6 +4,7 @@ import DragListener
 import Models.Task
 import Models.TaskItemAdapter
 import Utils.EventOneParam
+import Utils.EventTwoParam
 import Utils.EventZeroParam
 import ViewModels.TableViewModel
 import android.app.Activity
@@ -26,6 +27,7 @@ private const val ARG_GET_LIST_FUNCTION = "GetListFunction"
 class TableFragment : Fragment() {
     var onInstanceCreated = EventOneParam<suspend () -> MutableList<Task>>()
     var onGetAllReferences  = EventZeroParam()
+    var onContentChanged = EventZeroParam()
     lateinit var recyclerView: RecyclerView
 
     private var tableViewModel = TableViewModel(this);
@@ -74,7 +76,7 @@ class TableFragment : Fragment() {
     {
         (context as Activity).runOnUiThread {
             recyclerView.adapter = adapter
-            recyclerView.layoutManager = LinearLayoutManager(requireContext())
+            recyclerView.layoutManager = LinearLayoutManager(context)
             SetEmptyView()
         }
     }
@@ -86,7 +88,6 @@ class TableFragment : Fragment() {
                 arguments = Bundle().apply {
                     putString(ARG_HEADER, header)
                 }
-
                 onInstanceCreated.invoke(listGetterMethod)
             }
     }

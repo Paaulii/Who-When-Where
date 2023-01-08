@@ -160,7 +160,6 @@ class CreateTaskRepository
                 }
 
                 task
-                //Task(-1, "Edited task", "Some other description", "Category-5", "Done", 5.0f, 1.0f, 2, 25)
             }
     }
 

@@ -23,6 +23,7 @@ class TableViewModel(val tableView: TableFragment) : ViewModel()
 {
     private lateinit var adapter : TaskItemAdapter
     private lateinit var getTaskList :  suspend (() -> MutableList<Task>)
+
     private var tableRepository = TableRepository()
 
     init
@@ -94,8 +95,8 @@ class TableViewModel(val tableView: TableFragment) : ViewModel()
 
                 val jsonTask = Json.encodeToString(editedTask)
                 tableRepository.EditTaskRequest(jsonTask)
+                tableView.onContentChanged.invoke()
             }
-            InitRecycleViewer()
         }
     }
 }

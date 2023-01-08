@@ -3,6 +3,7 @@ package ViewModels
 import Models.BoardRepository
 import Models.Task
 import Models.User
+import Utils.EventZeroParam
 
 import Views.BoardFragment
 import android.app.AlertDialog
@@ -48,6 +49,7 @@ class BoardViewModel (val boardView : BoardFragment) : ViewModel()
     {
         boardView.OnMenuItemSelected += ::HandleMenuItemSelected
     }
+
 
     suspend fun GetToDoList() : MutableList<Task>
     {
