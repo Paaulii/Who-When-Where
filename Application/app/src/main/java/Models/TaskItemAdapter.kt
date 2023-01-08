@@ -25,7 +25,7 @@ import kotlin.concurrent.thread
 private const val DONE_STATUS = "Done"
 class TaskItemAdapter (private var tasks: MutableList<Task>) : RecyclerView.Adapter<TaskItemAdapter.ViewHolder>(), View.OnTouchListener {
     var onButtonClicked = EventOneParam<Task>()
-    var onChangeTaskState = EventThreeParam<Task, String, Boolean>()
+    var onChangeTaskState = EventTwoParam<Task, String>()
 
     private var blockedTaskAlphaValue : Float = 0.4F
     private var taskRepository = TaskItemAdapterRepository()

@@ -78,25 +78,23 @@ class TableViewModel(val tableView: TableFragment) : ViewModel()
         Navigation.findNavController(tableView.requireView()).navigate(R.id.action_board_to_createTask, bundle)
     }
 
-    private fun ChangeTaskState(task: Task, newState: String, handlesEditTaskRequest: Boolean){
+    private fun ChangeTaskState(task: Task, newState: String){
         viewModelScope.launch(Dispatchers.IO) {
-            if (handlesEditTaskRequest) {
-                val editedTask: Task = Task(
-                    task.id_t,
-                    task.title,
-                    task.description,
-                    task.category,
-                    newState,
-                    task.estimatedTime,
-                    task.realTime,
-                    task.id_u,
-                    task.blockedBy
-                )
+            val editedTask: Task = Task(
+                task.id_t,
+                task.title,
+                task.description,
+                task.category,
+                newState,
+                task.estimatedTime,
+                task.realTime,
+                task.id_u,
+                task.blockedBy
+            )
 
-                val jsonTask = Json.encodeToString(editedTask)
-                tableRepository.EditTaskRequest(jsonTask)
-                tableView.onContentChanged.invoke()
-            }
+            val jsonTask = Json.encodeToString(editedTask)
+            tableRepository.EditTaskRequest(jsonTask)
+            tableView.onContentChanged.invoke()
         }
     }
 }

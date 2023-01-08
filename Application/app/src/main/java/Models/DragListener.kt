@@ -137,8 +137,7 @@ class DragListener   : View.OnDragListener {
 
             val adapterTarget = target!!.adapter as TaskItemAdapter?
             val adapterState: String = target!!.tag as String
-            adapterTarget!!.onChangeTaskState.invoke(task!!, adapterState, true)
-            adapterSource!!.onChangeTaskState.invoke(task, adapterState, false)
+            adapterTarget!!.onChangeTaskState.invoke(task!!, adapterState)
         }
     } }
     return true
