@@ -60,6 +60,7 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
 
             if (task != null)
             {
+
                 createTaskView.InitTaskInformation(task)
             }
         }
@@ -118,7 +119,7 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
 
             val taskID = createTaskView.editTaskID
 
-            if ( taskID == null || taskID != -1)
+            if ( taskID == null || taskID == -1)
             {
                 tasks = Json.decodeFromString<MutableList<Task>>(createTaskRepository.GetAllTask())
             }
@@ -143,5 +144,9 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
 
     private fun HandleOnSetTaskSpinner(){
         createTaskView.PrepareEditTaskInformation(createTaskView.requireView())
+    }
+
+    private fun SetupTaskSpinner(){
+
     }
 }
