@@ -118,11 +118,25 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
 
             if ( taskID == null || taskID != -1)
             {
-                tasks = Json.decodeFromString<MutableList<Task>>(createTaskRepository.GetAllTask())
+                val json = createTaskRepository.GetAllTask();
+                tasks = if (json.contains('['))
+                {
+                    Json.decodeFromString<MutableList<Task>>(json)
+                } else
+                {
+                    mutableListOf(Json.decodeFromString<Task>(json))
+                }
             }
             else
             {
-                tasks = Json.decodeFromString<MutableList<Task>>(createTaskRepository.GetAllTaskExcept(taskID))
+                val json = createTaskRepository.GetAllTaskExcept(taskID);
+                tasks = if (json.contains('['))
+                {
+                    Json.decodeFromString<MutableList<Task>>(json)
+                } else
+                {
+                    mutableListOf(Json.decodeFromString<Task>(json))
+                }
             }
 
             val handler = android.os.Handler(Looper.getMainLooper())
