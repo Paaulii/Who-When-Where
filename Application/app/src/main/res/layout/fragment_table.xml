@@ -13,7 +13,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="5dp"
         app:cardCornerRadius="15dp"
@@ -27,7 +27,10 @@
             android:text="@string/tableHeaderText"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="30sp" />
+            android:textSize="40sp"
+            android:gravity="center"
+            android:fontFamily="@font/proxima"
+            android:background="@drawable/header_background"/>
 
     </androidx.cardview.widget.CardView>
 
@@ -46,7 +49,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id = "@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="620dp"
+        android:layout_height="match_parent"
         android:layout_marginHorizontal="10dp"
         />
 </LinearLayout>

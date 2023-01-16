@@ -31,6 +31,7 @@ class DragListener   : View.OnDragListener {
 
     var rightEdge : Float = 0.0f
     var leftEdge : Float = 0.0f
+    var widthPercentage: Float = 0.3f
 
     companion object{
         private var listner: DragListener? = null
@@ -84,8 +85,8 @@ class DragListener   : View.OnDragListener {
                 linearLayout = scrollView.getChildAt(0) as LinearLayout
                 linearLayoutWidth = linearLayout.width
 
-                rightEdge = scrollViewWidth - (scrollViewWidth * 0.2f)
-                leftEdge = scrollViewWidth * 0.2f
+                rightEdge = scrollViewWidth - (scrollViewWidth * widthPercentage)
+                leftEdge = scrollViewWidth * widthPercentage
             }
 
             DragEvent.ACTION_DRAG_LOCATION -> {
@@ -115,7 +116,7 @@ class DragListener   : View.OnDragListener {
                             )
                         }
 
-                        //sleep(1000)
+                        sleep(1000)
                         startAutoScroll = false
                     }
             }

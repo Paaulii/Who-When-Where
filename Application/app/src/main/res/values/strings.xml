@@ -39,5 +39,6 @@
     <string name="estimated_time">ESTIMATED TIME</string>
     <string name="real_time">REAL TIME</string>
     <string name="delete_task">DELETE TASK</string>
+    <string name="log_in">LOG IN</string>
 
 </resources>

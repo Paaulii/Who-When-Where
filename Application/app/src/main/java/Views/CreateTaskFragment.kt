@@ -95,13 +95,13 @@ class CreateTaskFragment : Fragment() {
         }
 
         dependencyCheckbox.isChecked = false;
+        editTaskID = arguments?.getInt("taskID")
+
         onGetAllReferences.invoke(userSpinner, taskStateSpinner, tasksSpinner)
     }
 
     fun PrepareEditTaskInformation(view: View){
-        editTaskID = arguments?.getInt("taskID")
         val mainTitle = view.findViewById<TextView>(R.id.mainTitle)
-
         if (editTaskID != null && editTaskID != -1)
         {
             mainTitle.text = "Task Edition"

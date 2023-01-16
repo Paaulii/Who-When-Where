@@ -2,7 +2,7 @@ package ViewModels
 
 import Models.*
 import Views.CreateTaskFragment
-import android.R
+import com.example.myapplication.R
 import android.os.Looper
 import android.util.Log
 import android.widget.ArrayAdapter
@@ -60,6 +60,7 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
 
             if (task != null)
             {
+
                 createTaskView.InitTaskInformation(task)
             }
         }
@@ -99,7 +100,7 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
             handler.post {
                 val adapter = ArrayAdapter(
                     createTaskView.requireContext(),
-                    R.layout.simple_spinner_item,
+                    R.layout.custom_spinner,
                     users
                 )
                 userSpinner.adapter = adapter
@@ -108,7 +109,9 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
 
         viewModelScope.launch(Dispatchers.IO){
 
-            val adapter = ArrayAdapter(createTaskView.requireContext(), R.layout.simple_spinner_item, tableTypes)
+            val adapter = ArrayAdapter(createTaskView.requireContext(),
+                R.layout.custom_spinner,
+                tableTypes)
             tableTypeSpinner.adapter = adapter
         }
 
@@ -116,7 +119,7 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
 
             val taskID = createTaskView.editTaskID
 
-            if ( taskID == null || taskID != -1)
+            if ( taskID == null || taskID == -1)
             {
                 val json = createTaskRepository.GetAllTask();
                 tasks = if (json.contains('['))
@@ -143,7 +146,7 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
             handler.post {
                 val adapter = ArrayAdapter(
                     createTaskView.requireContext(),
-                    R.layout.simple_spinner_item,
+                    R.layout.custom_spinner,
                     tasks
                 )
                 taskSpinner.adapter = adapter
@@ -155,5 +158,9 @@ class CreateTaskViewModel (var createTaskView : CreateTaskFragment) : ViewModel(
 
     private fun HandleOnSetTaskSpinner(){
         createTaskView.PrepareEditTaskInformation(createTaskView.requireView())
+    }
+
+    private fun SetupTaskSpinner(){
+
     }
 }
