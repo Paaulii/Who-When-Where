@@ -30,8 +30,8 @@ class LoginViewModel(val loginView: LoginFragment) : ViewModel()
     private fun TryToLogin(username: String, password: String)
     {
         viewModelScope.launch {
-            //val jsonInputString = "{\"login\": \"$username\", \"password\": \"$password\"}"
-            val jsonInputString = "{\"login\": \"janek\", \"password\": \"trudnehaslo\"}"
+            val jsonInputString = "{\"login\": \"$username\", \"password\": \"$password\"}"
+            //val jsonInputString = "{\"login\": \"janek\", \"password\": \"trudnehaslo\"}"
 
             val result = loginRepository.MakeLoginRequest(jsonInputString)
             if (result)

@@ -44,7 +44,8 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:hint="@string/passwordHint"
-            android:fontFamily="@font/nexa_book"/>
+
+            android:inputType="textPassword"/>
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
