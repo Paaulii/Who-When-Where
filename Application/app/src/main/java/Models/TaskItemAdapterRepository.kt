@@ -19,6 +19,8 @@ class TaskItemAdapterRepository {
             val con = url.openConnection() as HttpURLConnection
 
             con.setRequestProperty("Content-Type", "application/json")
+            val authorizationKey: String = AuthorizationData.GetAuthorizationKey()
+            con.setRequestProperty("Authorization",authorizationKey);
 
             var task : Task? = null
 

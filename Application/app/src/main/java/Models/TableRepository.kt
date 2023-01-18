@@ -21,6 +21,9 @@ class TableRepository
             con.requestMethod = "POST"
             con.setRequestProperty("Content-Type", "application/json")
 
+            val authorizationKey: String = AuthorizationData.GetAuthorizationKey()
+            con.setRequestProperty("Authorization",authorizationKey);
+
             con.outputStream.use { os ->
                 val input = jsonBody.toByteArray(charset("utf-8"))
                 os.write(input, 0, input.size)

@@ -17,6 +17,9 @@ class ReportRepository {
             val con = url.openConnection() as HttpURLConnection
             var tasks = ""
 
+            val authorizationKey: String = AuthorizationData.GetAuthorizationKey()
+            con.setRequestProperty("Authorization",authorizationKey);
+
             con.inputStream.bufferedReader().use {
                 try {
                     tasks = it.readText()

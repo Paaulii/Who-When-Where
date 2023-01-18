@@ -28,6 +28,8 @@ class CreateTaskRepository
             con.doOutput = true
             con.requestMethod = "POST"
             con.setRequestProperty("Content-Type", "application/json")
+            val authorizationKey: String = AuthorizationData.GetAuthorizationKey()
+            con.addRequestProperty("Authorization",authorizationKey);
 
             con.outputStream.use { os ->
                 val input = jsonBody.toByteArray(charset("utf-8"))
@@ -52,9 +54,11 @@ class CreateTaskRepository
             val con = url.openConnection() as HttpURLConnection
 
             con.setRequestProperty("Content-Type", "application/json")
+            val authorizationKey: String = AuthorizationData.GetAuthorizationKey()
+            con.setRequestProperty("Authorization",authorizationKey);
 
             var tasks = ""
-            con.inputStream.bufferedReader().use {
+                    con.inputStream.bufferedReader().use {
                 try {
                     tasks = it.readText()
                 } catch (e: Exception)
@@ -74,6 +78,8 @@ class CreateTaskRepository
             val con = url.openConnection() as HttpURLConnection
 
             con.setRequestProperty("Content-Type", "application/json")
+            val authorizationKey: String = AuthorizationData.GetAuthorizationKey()
+            con.addRequestProperty("Authorization",authorizationKey);
 
             var tasks = ""
             con.inputStream.bufferedReader().use {
@@ -96,6 +102,8 @@ class CreateTaskRepository
             val con = url.openConnection() as HttpURLConnection
 
             con.setRequestProperty("Content-Type", "application/json")
+            val authorizationKey: String = AuthorizationData.GetAuthorizationKey()
+            con.setRequestProperty("Authorization",authorizationKey);
 
             var users = ""
             con.inputStream.bufferedReader().use {
@@ -120,7 +128,10 @@ class CreateTaskRepository
 
             con.doOutput = true
             con.requestMethod = "POST"
+
             con.setRequestProperty("Content-Type", "application/json")
+            val authorizationKey: String = AuthorizationData.GetAuthorizationKey()
+            con.addRequestProperty("Authorization",authorizationKey);
 
             con.outputStream.use { os ->
                 val input = jsonBody.toByteArray(charset("utf-8"))
@@ -146,6 +157,8 @@ class CreateTaskRepository
                 val con = url.openConnection() as HttpURLConnection
 
                 con.setRequestProperty("Content-Type", "application/json")
+                val authorizationKey: String = AuthorizationData.GetAuthorizationKey()
+                con.addRequestProperty("Authorization",authorizationKey);
 
                 var task : Task? = null
 
@@ -172,7 +185,10 @@ class CreateTaskRepository
 
             con.doOutput = true
             con.requestMethod = "POST"
+
             con.setRequestProperty("Content-Type", "application/json")
+            val authorizationKey: String = AuthorizationData.GetAuthorizationKey()
+            con.addRequestProperty("Authorization",authorizationKey);
 
             con.outputStream.use { os ->
                 val input = jsonBody.toByteArray(charset("utf-8"))

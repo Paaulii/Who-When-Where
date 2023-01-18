@@ -10,7 +10,7 @@ class LoginRepository
 {
     val loginURLstring = "https://io.kamil.top:20420/login"
 
-    suspend fun MakeLoginRequest(jsonBody: String) : Boolean
+    suspend fun MakeLoginRequest() : Boolean
     {
         return withContext(Dispatchers.IO)
         {
@@ -19,19 +19,16 @@ class LoginRepository
 
             con.doOutput = true
             con.requestMethod = "POST"
-            con.setRequestProperty("Content-Type", "application/json")
 
-            con.outputStream.use { os ->
-                val input = jsonBody.toByteArray(charset("utf-8"))
-                os.write(input, 0, input.size)
-            }
+            val authorizationKey: String = AuthorizationData.GetAuthorizationKey()
+            con.setRequestProperty("Authorization",authorizationKey);
 
             var result = false
 
             con.inputStream.bufferedReader().use {
                 try {
                     val ret = it.readText()
-                    if (ret == "True\n")
+                    if (ret == "True")
                     {
                         result = true
                     }

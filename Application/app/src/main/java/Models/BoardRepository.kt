@@ -17,6 +17,9 @@ class BoardRepository
             val con = url.openConnection() as HttpURLConnection
             var tasks = ""
 
+            val authorizationKey: String = AuthorizationData.GetAuthorizationKey()
+            con.setRequestProperty("Authorization",authorizationKey);
+
             con.inputStream.bufferedReader().use {
                 try {
                     tasks = it.readText()
@@ -38,6 +41,9 @@ class BoardRepository
             val con = url.openConnection() as HttpURLConnection
 
             con.setRequestProperty("Content-Type", "application/json")
+
+            val authorizationKey: String = AuthorizationData.GetAuthorizationKey()
+            con.addRequestProperty("Authorization",authorizationKey);
 
             var usersJson = ""
             con.inputStream.bufferedReader().use {
